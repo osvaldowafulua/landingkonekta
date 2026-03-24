@@ -476,9 +476,11 @@ footer{
 }
 
 @media (max-width: 480px) {
-  .h1-serif { font-size: 38px; }
+  .h1-serif { font-size: 36px !important; line-height: 1.1; margin-bottom: 24px; }
   .n-ctas { display: none; }
-  .cats-grid { grid-template-columns: 1fr 1fr; }
+  .cats-grid { grid-template-columns: 1fr; }
+  .hero-actions { padding: 0 10px; }
+  .hero-actions button { width: 100% !important; height: 52px; font-size: 15px; }
 }
 </style>
 </head>
@@ -517,6 +519,19 @@ footer{
       Conectamos quem precisa de uma tarefa feita com quem quer ganhar ao realizá-la. 
       Rápido, verificado e seguro.
     </p>
+
+    <!-- Global Search for t5 -->
+    <div style="max-width: 500px; margin: 32px 0;">
+      <div style="display:flex; background:#fff; border:1px solid #d1d5db; border-radius:12px; padding:4px; height:56px; box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);">
+        <div style="display:flex; align-items:center; padding:0 16px; color:#9ca3af">
+          <i data-lucide="search" style="width:20px"></i>
+        </div>
+        <input type="text" placeholder="Pesquisar por serviço ou profissional..." style="flex:1; border:none; background:transparent; padding:0 12px; font-size:15px; outline:none; color:var(--ink); font-family:inherit;">
+        <button style="padding:0 20px; background:var(--ink); border:none; border-radius:8px; color:#fff; font-size:14px; font-weight:600; cursor:pointer; transition:all 0.2s;">
+          Procurar
+        </button>
+      </div>
+    </div>
 
     <div class="hero-actions">
       <button class="btn-big-fill">

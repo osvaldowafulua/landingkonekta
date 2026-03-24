@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Konekta — O Futuro do Trabalho (v9 - Premium Light)</title>
+
+  <!-- Google Fonts: Outfit (Display) & Inter (Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #FAFAFA; /* Light mode off-white */
+      --surface: #FFFFFF; /* Pure white cards */
+      --surface-border: rgba(0, 0, 0, 0.08); /* faint border */
+      --surface-overlay: rgba(255, 255, 255, 0.85); /* glass */
+      --text-main: #334155; /* Slate 700 - Deep grey, not black */
+      --text-muted: #64748B; /* Slate 500 */
+      --accent: #2563EB; /* Premium Blue for brand trust */
+      --accent-hover: #1D4ED8;
+      --accent-cyan: #06B6D4;
+      --font-body: 'Inter', sans-serif;
+      --font-display: 'Outfit', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ── REUSABLE ── */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+    
+    .text-gradient {
+      background: linear-gradient(135deg, #1e293b 30%, #64748b 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 8px; height: 48px; padding: 0 24px;
+      border-radius: 24px; font-weight: 600; font-size: 15px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer; text-decoration: none; border: none;
+    }
+    .btn-primary {
+      background: var(--accent); color: #fff;
+      box-shadow: 0 6px 16px rgba(37, 99, 235, 0.25);
+    }
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(37, 99, 235, 0.35);
+    }
+    .btn-ghost {
+      background: #FFFFFF; color: var(--text-main);
+      border: 1px solid var(--surface-border);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    }
+    .btn-ghost:hover {
+      border-color: rgba(0,0,0,0.15);
+      background: #F8FAFC;
+      transform: translateY(-2px);
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100; padding: 24px 0;
+      transition: all 0.3s ease;
+    }
+    nav.scrolled {
+      padding: 16px 0;
+      background: var(--surface-overlay);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--surface-border);
+      box-shadow: 0 4px 30px rgba(0,0,0,0.03);
+    }
+    .nav-inner {
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .logo {
+      font-family: var(--font-display); font-size: 24px; font-weight: 900;
+      letter-spacing: -0.05em; color: var(--text-main); text-decoration: none;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .logo-dot { width: 10px; height: 10px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 10px rgba(37,99,235,0.4); }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-link { color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+    .nav-link:hover { color: var(--accent); }
+    .nav-actions { display: flex; gap: 16px; align-items: center; }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      padding-top: 180px; padding-bottom: 120px;
+      min-height: 100vh;
+      display: flex; align-items: center;
+      overflow: hidden;
+      background: radial-gradient(circle at 50% -10%, #E0E7FF 0%, transparent 50%),
+                  radial-gradient(circle at 110% 40%, rgba(6,182,212,0.1) 0%, transparent 40%);
+    }
+    
+    .hero-content {
+      position: relative; z-index: 10;
+      max-width: 840px; margin: 0 auto; text-align: center;
+    }
+    .badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 16px; border-radius: 20px;
+      background: var(--surface); border: 1px solid var(--surface-border);
+      font-size: 13px; font-weight: 600; color: var(--accent);
+      margin-bottom: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    }
+    .badge-pulse { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent); animation: pulse 2s infinite; }
+    
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(48px, 8vw, 84px);
+      font-weight: 900; line-height: 1.05; letter-spacing: -0.04em;
+      margin-bottom: 24px;
+    }
+    .hero-subtitle {
+      font-size: clamp(16px, 2vw, 20px);
+      line-height: 1.6; color: var(--text-muted);
+      max-width: 600px; margin: 0 auto 48px;
+    }
+    .hero-actions {
+      display: flex; gap: 16px; justify-content: center;
+      margin-bottom: 80px;
+    }
+
+    /* ── ORBITAL BOARD (Hero Visual) ── */
+    .orbital-board {
+      position: relative; height: 350px; width: 100%;
+      margin-top: 40px;
+      perspective: 1200px;
+    }
+    .orb-card {
+      position: absolute; left: 50%; top: 50%;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.4);
+      padding: 20px; border-radius: 20px;
+      width: 280px; text-align: left;
+      transform-style: preserve-3d;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.8);
+      animation: floatOrbit 20s infinite ease-in-out;
+    }
+    .orb-card:nth-child(1) { animation-delay: 0s; transform: translate(-50%, -50%) rotateY(-15deg) translateX(-280px) translateZ(40px); }
+    .orb-card:nth-child(2) { animation-delay: -6s; transform: translate(-50%, -50%) rotateY(10deg) translateX(280px) translateZ(80px); z-index: 5; }
+    .orb-card:nth-child(3) { animation-delay: -12s; transform: translate(-50%, -50%) rotateY(0deg) translateY(-140px) translateZ(0px); }
+    
+    .orb-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .orb-pill { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; background: rgba(37,99,235,0.1); color: var(--accent); padding: 4px 8px; border-radius: 8px; }
+    .orb-title { font-weight: 700; font-size: 15px; margin-bottom: 4px; color: #1e293b; }
+    .orb-meta { font-size: 12px; color: var(--text-muted); font-weight: 500; }
+
+    /* ── TICKER ── */
+    .ticker-wrap {
+      border-top: 1px solid var(--surface-border);
+      border-bottom: 1px solid var(--surface-border);
+      padding: 32px 0; overflow: hidden; background: #FFFFFF;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+    }
+    .ticker { display: flex; gap: 64px; animation: tickerScroll 30s linear infinite; white-space: nowrap; }
+    .ticker-item {
+      display: inline-flex; align-items: center; gap: 16px;
+      font-family: var(--font-display); font-size: 24px; font-weight: 800;
+      color: rgba(30, 41, 59, 0.4); text-transform: uppercase; letter-spacing: -0.02em;
+    }
+    .ticker-item i { color: rgba(37,99,235,0.5); }
+
+    /* ── BENTO GRID (Features) ── */
+    .section-bento { padding: 140px 0; }
+    .section-header { text-align: center; margin-bottom: 80px; }
+    .section-eyebrow { color: var(--accent); font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 16px; }
+    .section-title { font-family: var(--font-display); font-size: 48px; font-weight: 900; letter-spacing: -0.03em; }
+    
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 320px);
+      gap: 24px;
+    }
+    .b-card {
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      border-radius: 32px;
+      padding: 40px;
+      position: relative; overflow: hidden;
+      display: flex; flex-direction: column;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+      transition: box-shadow 0.3s, transform 0.3s;
+    }
+    .b-card:hover { box-shadow: 0 20px 40px rgba(0,0,0,0.06); transform: translateY(-4px); }
+    .b-card.large { grid-column: span 2; grid-row: span 2; }
+    .b-card.tall { grid-column: span 1; grid-row: span 2; }
+    
+    .b-icon { width: 56px; height: 56px; border-radius: 16px; background: rgba(37,99,235,0.08); display: flex; align-items: center; justify-content: center; margin-bottom: 24px; color: var(--accent); }
+    .b-card h3 { font-family: var(--font-display); font-size: 28px; font-weight: 800; letter-spacing:-0.02em; margin-bottom: 12px; color: #1e293b; }
+    .b-card p { color: var(--text-muted); line-height: 1.6; font-size: 16px; }
+    
+    /* Bento Large Visuals */
+    .b-visual-shield {
+      position: absolute; right: -20px; bottom: -20px;
+      width: 250px; height: 250px; opacity: 0.05;
+      color: var(--accent);
+      transform: rotate(-15deg);
+    }
+    
+    /* ── USSD WIREFRAME NOKIA ── */
+    .section-ussd { padding: 140px 0; background: #E2E8F0; border-top: 1px solid var(--surface-border); }
+    .ussd-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .tech-nokia-wrapper {
+      position: relative; width: 340px; height: 600px; margin: 0 auto;
+      perspective: 1200px;
+    }
+    /* Wireframe Phone for Light Mode */
+    .tech-phone {
+      position: absolute; inset: 0;
+      background: #FFFFFF;
+      border: 4px solid #94A3B8;
+      border-radius: 40px;
+      transform: rotateY(-15deg) rotateX(5deg) scale(0.9);
+      transform-style: preserve-3d;
+      box-shadow: 20px 30px 60px rgba(0,0,0,0.1), inset 0 8px 16px rgba(255,255,255,0.5);
+    }
+    .tech-phone::before { content: ''; position: absolute; inset: -2px; border-radius: 40px; box-shadow: inset 0 0 0 2px rgba(255,255,255,1); pointer-events: none; }
+    
+    /* Glowing Screen */
+    .tech-screen {
+      position: absolute; top: 60px; left: 24px; right: 24px; height: 210px;
+      background: #AABC84;
+      border: 2px solid #8B9B64;
+      border-left: 2px solid #8B9B64; border-top: 4px solid #8B9B64;
+      border-radius: 4px;
+      padding: 16px;
+      color: #1a1e16;
+      font-family: 'JetBrains Mono', 'Courier New', monospace; font-size: 13px; font-weight: 700;
+      text-shadow: 1px 1px 0px rgba(170,188,132,0.5);
+      box-shadow: inset 0 4px 12px rgba(0,0,0,0.1);
+      transform: translateZ(20px);
+    }
+    .tech-screen span { display: block; margin-bottom: 8px; }
+    .tech-screen .blink { animation: blink 1s step-end infinite; }
+    
+    /* Wireframe Keypad */
+    .tech-keypad {
+      position: absolute; bottom: 40px; left: 24px; right: 24px;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+    }
+    .tech-key {
+      height: 36px; border: 1px solid #CBD5E1;
+      background: linear-gradient(180deg, #F8FAFC, #E2E8F0);
+      border-radius: 8px; box-shadow: inset 0 -2px 4px rgba(0,0,0,0.05);
+    }
+
+    /* ── SPLIT CTA ── */
+    .split-cta {
+      margin: 140px 0;
+      display: grid; grid-template-columns: 1fr 1fr;
+      background: var(--surface); border: 1px solid var(--surface-border);
+      border-radius: 40px; overflow: hidden;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.05);
+    }
+    .s-cta-pane {
+      padding: 80px 60px; text-align: center;
+      position: relative;
+    }
+    .s-cta-left { border-right: 1px solid var(--surface-border); background: #F8FAFC; }
+    .s-cta-pane h2 { font-family: var(--font-display); font-size: 36px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 20px; color: #1e293b; }
+    .p-muted { color: var(--text-muted); margin-bottom: 40px; line-height: 1.7; font-size: 16px; }
+
+    /* ── MINIMAL FOOTER ── */
+    footer { border-top: 1px solid var(--surface-border); padding: 80px 0 40px; background: #FFFFFF; }
+    .f-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 64px; margin-bottom: 80px; }
+    .f-col h4 { font-family: var(--font-display); font-size: 16px; font-weight: 700; margin-bottom: 24px; color: var(--text-main); }
+    .f-col ul { list-style: none; }
+    .f-col li { margin-bottom: 12px; }
+    .f-col a { color: var(--text-muted); text-decoration: none; font-size: 15px; font-weight: 500; transition: color 0.2s; }
+    .f-col a:hover { color: var(--accent); }
+    .f-bottom { display: flex; justify-content: space-between; padding-top: 32px; border-top: 1px solid var(--surface-border); font-size: 14px; font-weight: 500; color: var(--text-muted); }
+
+    /* Keyframes */
+    @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.8); } }
+    @keyframes tickerScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    @keyframes floatOrbit {
+      0%, 100% { transform: translate(-50%, -50%) rotateY(0deg) translateZ(0px) translateY(0); }
+      25% { transform: translate(-50%, -50%) rotateY(8deg) translateZ(20px) translateY(-10px); }
+      75% { transform: translate(-50%, -50%) rotateY(-8deg) translateZ(-10px) translateY(10px); }
+    }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .bento-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+      .b-card.large, .b-card.tall { grid-column: span 1; grid-row: auto; }
+      .ussd-layout { grid-template-columns: 1fr; text-align: center; }
+      .tech-nokia-wrapper { margin-top: 60px; }
+      .split-cta { grid-template-columns: 1fr; }
+      .s-cta-left { border-right: none; border-bottom: 1px solid var(--surface-border); }
+      .f-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+    }
+    @media (max-width: 480px) {
+      .hero-title { font-size: 40px; }
+      .nav-links, .nav-actions .btn-ghost { display: none; }
+      .f-grid { grid-template-columns: 1fr; }
+      .s-cta-pane { padding: 40px 24px; }
+      .orb-card:nth-child(2), .orb-card:nth-child(3) { display: none; } /* simplify mobile hero */
+      .orb-card:nth-child(1) { transform: translate(-50%, -50%) rotateY(0deg) translateX(0) translateZ(0); animation: none; margin-top: 40px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav id="navbar">
+    <div class="container nav-inner">
+      <a href="#" class="logo"><div class="logo-dot"></div> Konekta</a>
+      <div class="nav-links">
+        <a href="#" class="nav-link">Plataforma</a>
+        <a href="#" class="nav-link">Preços</a>
+        <a href="#" class="nav-link">Como Funciona</a>
+      </div>
+      <div class="nav-actions">
+        <a href="#" class="btn btn-ghost">Entrar</a>
+        <a href="#" class="btn btn-primary">Publicar Tarefa</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero-content">
+      <div class="badge"><div class="badge-pulse"></div> Konekta v9.0 (Premium Light)</div>
+      <h1 class="hero-title"><span class="text-gradient">O talento de Angola,</span> agilizado.</h1>
+      <p class="hero-subtitle">A infraestrutura nº1 para conectar profissionais de excelência a clientes que valorizam rapidez, qualidade e extrema segurança.</p>
+      
+      <div class="hero-actions">
+        <a href="#" class="btn btn-primary">Começar Agora <i data-lucide="arrow-right" style="width:18px;"></i></a>
+        <a href="#" class="btn btn-ghost">Sou Profissional</a>
+      </div>
+      
+      <!-- Orbital Board -->
+      <div class="orbital-board">
+        <div class="orb-card">
+          <div class="orb-header"><span class="orb-pill">Urgente</span><span><i data-lucide="zap" style="width:18px; color:var(--accent)"></i></span></div>
+          <div class="orb-title">Reparação Elétrica T3</div>
+          <div class="orb-meta">Maianga · Há 10 min</div>
+        </div>
+        <div class="orb-card" style="margin-top:-80px;">
+          <div class="orb-header"><span class="orb-pill" style="color:var(--accent-cyan); background:rgba(6,182,212,0.1)">Design</span><span><i data-lucide="pen-tool" style="width:18px; color:var(--accent-cyan)"></i></span></div>
+          <div class="orb-title">Criação de Logótipo</div>
+          <div class="orb-meta">Talatona · Há 1h</div>
+        </div>
+        <div class="orb-card" style="margin-top:60px;">
+          <div class="orb-header"><span class="orb-pill" style="color:#d946ef; background:rgba(217,70,239,0.1)">Doméstico</span><span><i data-lucide="home" style="width:18px; color:#d946ef"></i></span></div>
+          <div class="orb-title">Limpeza Profunda</div>
+          <div class="orb-meta">Mutamba · Concluído</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="ticker-wrap">
+    <div class="ticker">
+      <div class="ticker-item"><i data-lucide="shield-check" style="width:28px;height:28px"></i> 12.000+ Utilizadores</div>
+      <div class="ticker-item"><i data-lucide="zap" style="width:28px;height:28px"></i> Electricidade</div>
+      <div class="ticker-item"><i data-lucide="wrench" style="width:28px;height:28px"></i> Canalização</div>
+      <div class="ticker-item"><i data-lucide="code" style="width:28px;height:28px"></i> Tecnologia</div>
+      <div class="ticker-item"><i data-lucide="camera" style="width:28px;height:28px"></i> Fotografia</div>
+      <div class="ticker-item"><i data-lucide="truck" style="width:28px;height:28px"></i> Mudanças</div>
+      <div class="ticker-item"><i data-lucide="brush" style="width:28px;height:28px"></i> Limpeza</div>
+      
+      <!-- Duplicate -->
+      <div class="ticker-item"><i data-lucide="shield-check" style="width:28px;height:28px"></i> 12.000+ Utilizadores</div>
+      <div class="ticker-item"><i data-lucide="zap" style="width:28px;height:28px"></i> Electricidade</div>
+      <div class="ticker-item"><i data-lucide="wrench" style="width:28px;height:28px"></i> Canalização</div>
+      <div class="ticker-item"><i data-lucide="code" style="width:28px;height:28px"></i> Tecnologia</div>
+      <div class="ticker-item"><i data-lucide="camera" style="width:28px;height:28px"></i> Fotografia</div>
+      <div class="ticker-item"><i data-lucide="truck" style="width:28px;height:28px"></i> Mudanças</div>
+      <div class="ticker-item"><i data-lucide="brush" style="width:28px;height:28px"></i> Limpeza</div>
+    </div>
+  </div>
+
+  <!-- BENTO GRID -->
+  <section class="section-bento container">
+    <div class="section-header">
+      <div class="section-eyebrow">Zero Fricção. Máximo Controlo.</div>
+      <h2 class="section-title text-gradient">Bem-vindo à eficiência.</h2>
+    </div>
+    
+    <div class="bento-grid">
+      <div class="b-card large">
+        <div class="b-icon"><i data-lucide="lock" style="width:28px; height:28px;"></i></div>
+        <h3>Pagamentos no cofre.</h3>
+        <p style="max-width: 400px; font-size:18px;">Os teus fundos são retidos na carteira virtual Konekta Escrow até aprovares a conclusão total do trabalho. Segurança inviolável, de ponta a ponta.</p>
+        <i data-lucide="shield-check" class="b-visual-shield"></i>
+      </div>
+      
+      <div class="b-card tall">
+        <div class="b-icon" style="color:var(--accent-cyan); background:rgba(6,182,212,0.1)"><i data-lucide="fingerprint" style="width:28px; height:28px;"></i></div>
+        <h3>KYC Estrito</h3>
+        <p>Validação biométrica e documental da identidade de todos os profissionais. Protegemos o teu lar.</p>
+        <div style="margin-top:auto; padding-top:40px;">
+          <div style="height:10px; width:40%; background:var(--bg); border-radius:6px; margin-bottom:12px;"></div>
+          <div style="height:10px; width:80%; background:var(--bg); border-radius:6px; margin-bottom:24px;"></div>
+          <div style="display:flex; align-items:center; gap:8px; color:var(--accent-cyan); font-weight:700; font-size:15px; background:rgba(6,182,212,0.1); padding:8px 16px; border-radius:12px; width:max-content;"><i data-lucide="check-circle" style="width:18px;"></i> Identidade Validada</div>
+        </div>
+      </div>
+      
+      <div class="b-card">
+        <div class="b-icon" style="color:#d946ef; background:rgba(217,70,239,0.1)"><i data-lucide="receipt" style="width:28px; height:28px;"></i></div>
+        <h3>Sem orçamentos surpresa</h3>
+        <p>Acordos pré-definidos e taxas perfeitamente claras. Tu vês exatamente o valor do serviço prestado.</p>
+      </div>
+      
+      <div class="b-card">
+        <div class="b-icon" style="color:#f59e0b; background:rgba(245,158,11,0.1)"><i data-lucide="headphones" style="width:28px; height:28px;"></i></div>
+        <h3>Apoio Local</h3>
+        <p>A nossa equipa opera a partir de Luanda, pronta para intervir como teu árbitro oficial a qualquer momento.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- USSD MOCKUP -->
+  <section class="section-ussd">
+    <div class="container ussd-layout">
+      <div>
+        <div class="section-eyebrow" style="color:var(--accent)">Inclusão Garantida</div>
+        <h2 class="section-title text-gradient" style="margin-bottom:24px; font-size:44px; line-height:1.1;">Ligação total,<br>sem internet.</h2>
+        <p class="p-muted" style="font-size:18px;">Marcando o simples código <strong style="color:var(--text-main)">*920*99#</strong> (Unitel ou Africell), qualquer telefone liga-se ao ecossistema Konekta. Desenvolvido para servir Angola de ponta a ponta.</p>
+        <div style="margin-top:40px; display:flex; gap:16px;">
+          <div style="width:56px; height:56px; border-radius:16px; background:#fff; border:1px solid var(--surface-border); display:flex; align-items:center; justify-content:center; color:var(--accent); font-family:var(--font-display); font-size:24px; box-shadow:0 10px 20px rgba(0,0,0,0.03)">U</div>
+          <div style="width:56px; height:56px; border-radius:16px; background:#fff; border:1px solid var(--surface-border); display:flex; align-items:center; justify-content:center; color:var(--accent-cyan); font-family:var(--font-display); font-size:24px; box-shadow:0 10px 20px rgba(0,0,0,0.03)">A</div>
+        </div>
+      </div>
+      
+      <div class="tech-nokia-wrapper">
+        <div class="tech-phone">
+          <div class="tech-screen">
+            <span style="display:flex; justify-content:space-between; border-bottom:1px dashed rgba(26,30,22,0.3); padding-bottom:6px; margin-bottom:12px;"><span>ılılı Unitel</span><span>[====]</span></span>
+            <span>Bem-vindo à Konekta.</span>
+            <br>
+            <span>1 - Procurar Tarefas</span>
+            <span>2 - Iniciar sessão</span>
+            <span>0 - Sair</span>
+            <span class="blink" style="margin-top:12px;">_</span>
+          </div>
+          <div class="tech-keypad">
+            <div class="tech-key" style="grid-column:span 3; height:44px; border-radius:12px; background:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:12px; color:#94A3B8; letter-spacing:0.1em;">MENU</div>
+            <div class="tech-key"></div><div class="tech-key"></div><div class="tech-key"></div>
+            <div class="tech-key"></div><div class="tech-key"></div><div class="tech-key"></div>
+            <div class="tech-key"></div><div class="tech-key"></div><div class="tech-key"></div>
+            <div class="tech-key" style="border-radius:8px 8px 16px 8px;"></div><div class="tech-key"></div><div class="tech-key" style="border-radius:8px 8px 8px 16px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="container">
+    <div class="split-cta">
+      <div class="s-cta-pane s-cta-left">
+        <h2>Delega o trabalho.</h2>
+        <p class="p-muted">Publica a tua tarefa num minuto e relaxa. Vamos apresentar-te os melhores do mercado local.</p>
+        <a href="#" class="btn btn-primary" style="padding:0 32px;">Expor Necessidade <i data-lucide="arrow-right" style="width:18px;"></i></a>
+      </div>
+      <div class="s-cta-pane">
+        <h2>Aumenta o teu rendimento.</h2>
+        <p class="p-muted">Entra na carteira de prestadores Konekta. Escolhe o teu horário, propõe o teu preço.</p>
+        <a href="#" class="btn btn-ghost" style="padding:0 32px;">Oferecer Serviço <i data-lucide="arrow-right" style="width:18px;"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="f-grid">
+        <div class="f-col">
+          <a href="#" class="logo" style="margin-bottom:24px;"><div class="logo-dot"></div> Konekta</a>
+          <p class="p-muted" style="font-size:15px; max-width:280px;">Design premium centrado na simplicidade. Criado para elevar a contratação de talento local.</p>
+        </div>
+        <div class="f-col">
+          <h4>Plataforma</h4>
+          <ul>
+            <li><a href="#">Catálogo de Categorias</a></li>
+            <li><a href="#">Funcionamento USSD</a></li>
+            <li><a href="#">Painel de Leads</a></li>
+          </ul>
+        </div>
+        <div class="f-col">
+          <h4>Empresa</h4>
+          <ul>
+            <li><a href="#">História Konekta</a></li>
+            <li><a href="#">Diretrizes Legais</a></li>
+            <li><a href="#">Recrutamento</a></li>
+          </ul>
+        </div>
+        <div class="f-col">
+          <h4>Assistência</h4>
+          <ul>
+            <li><a href="#">Base de Conhecimento</a></li>
+            <li><a href="#">Contactos Diretos</a></li>
+            <li><a href="#">Política de Reembolsos</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="f-bottom">
+        <div>&copy; 2026 Konekta Holding. Todos os direitos devidamente salvaguardados.</div>
+        <div style="display:flex; gap:20px;">
+          <i data-lucide="instagram" style="width:18px; cursor:pointer;"></i>
+          <i data-lucide="linkedin" style="width:18px; cursor:pointer;"></i>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    lucide.createIcons();
+
+    // Navbar Scrolled State
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('navbar');
+      if (window.scrollY > 40) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+    });
+  </script>
+</body>
+</html>

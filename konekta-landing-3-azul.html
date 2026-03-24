@@ -53,20 +53,24 @@ body {
 }
 
 @media (max-width: 768px) {
-  .hero-grid { grid-template-columns: 1fr; }
-  .hg-left { border-right: none; border-bottom: 2px solid var(--ink); padding: 40px 24px; text-align: center; }
-  .hg-right { padding: 40px 24px; }
-  .h1-hero { font-size: 60px; }
+  .hero-issue { margin-bottom: 20px; }
+  .hero { grid-template-columns: 1fr; min-height: auto; }
+  .hero-left { border-right: none; border-bottom: 2px solid var(--ink); padding: 48px 24px; }
+  .hero-right { display: none; }
+  h1.editorial { font-size: 72px !important; line-height: 1.0; }
+  .hero-sub-row { flex-direction: column; align-items: flex-start; gap: 24px; }
+  .hero-watermark { display: none; }
+  .nav-logo { border-right: none; padding-right: 0; }
   .cats-section { grid-template-columns: 1fr; }
-  .cs-left { border-right: none; border-bottom: 2px solid var(--ink); }
+  .cs-left { border-right: none; border-bottom: 2px solid var(--ink); padding: 40px 24px; }
   .cta-final { grid-template-columns: 1fr; }
   .cf-left { border-right: none; border-bottom: 2px solid var(--ink); }
   .topbar { padding: 8px 24px; text-align: center; }
-  .nav-logo { border-right: none; padding-right: 0; }
+  .vertical-decor, .vl { display: none !important; }
 }
 
 @media (max-width: 480px) {
-  .h1-hero { font-size: 40px; }
+  h1.editorial { font-size: 56px !important; }
   .nav-cta { display: none; }
 }
 
@@ -704,25 +708,33 @@ footer {
 <!-- HERO -->
 <section class="hero">
   <div class="hero-left">
-    <div class="hero-watermark">K</div>
-    <div>
       <div class="hero-issue">Vol. I · Mar 2026 · Luanda, Angola</div>
       <h1 class="editorial">
         <span class="e-line1">Onde</span>
-        <span class="e-line2">Todos</span>
-        <span class="e-line3">Ganham</span>
+        <span class="e-line2">todos podem</span>
+        <span class="e-line3">ganhar</span>
       </h1>
-    </div>
-    <div class="hero-sub-row">
-      <p class="hero-tagline">
-        O marketplace on-demand que conecta quem precisa de uma tarefa feita a quem quer ganhar ao realizá-la.
-      </p>
-      <div class="hero-btns">
-        <button class="btn-rust">Publicar tarefa →</button>
-        <button class="btn-ink-out">Sou prestador</button>
+
+      <!-- Global Search for t3 -->
+      <div style="max-width: 500px; margin: 32px 0;">
+        <div style="display:flex; background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:4px; height:56px;">
+          <input type="text" placeholder="Pesquisar serviços..." style="flex:1; border:none; background:transparent; padding:0 16px; font-size:15px; outline:none; font-family:inherit;">
+          <button style="width:48px; height:48px; background:var(--ink); border:none; border-radius:8px; color:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center;">
+            <i data-lucide="search" style="width:20px"></i>
+          </button>
+        </div>
+      </div>
+      <div class="hero-sub-row" style="margin-top:auto">
+        <p class="hero-tagline">
+          O marketplace on-demand que conecta quem precisa de uma tarefa feita a quem quer ganhar ao realizá-la. 
+          Rápido, verificado e seguro.
+        </p>
+        <div class="hero-btns">
+          <button class="btn-rust">Publicar tarefa →</button>
+          <button class="btn-ink-out">Sou prestador</button>
+        </div>
       </div>
     </div>
-  </div>
 
   <div class="hero-right">
     <div class="hero-stat-block">

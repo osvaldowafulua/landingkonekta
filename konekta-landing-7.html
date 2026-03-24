@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Konekta — Modelo 7 Professional</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg: #ffffff;
+  --white: #ffffff;
+  --ink: #0e0e14;
+  --ink2: #1c1c28;
+  --muted: #62646a;
+  --border: #efeff2;
+  --border2: #e4e5e7;
+  --purple: #7c3aed;
+  --pink: #ec4899;
+  --green: #10b981;
+  --soft: #f5f5f7;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+h1, h2, h3, .logo-sg { font-family: 'Space Grotesk', sans-serif; }
+
+/* NAV - Uniform with t6 */
+nav {
+  height: 80px;
+  padding: 0 48px;
+  display: flex; align-items: center;
+  border-bottom: 1px solid var(--border);
+  background: var(--white);
+  position: sticky; top: 0; z-index: 1000;
+}
+.logo-sg {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.03em;
+  color: var(--ink); text-decoration: none;
+  display: flex; align-items: center; gap: 10px;
+}
+.logo-badge {
+  width: 32px; height: 32px;
+  background: linear-gradient(135deg, var(--purple), var(--pink));
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+}
+.nl { display: flex; gap: 32px; flex: 1; justify-content: center; }
+.nl a {
+  font-size: 14px; font-weight: 600; color: var(--muted);
+  text-decoration: none; transition: color 0.2s;
+}
+.nl a:hover { color: var(--purple); }
+.nr { display: flex; gap: 12px; margin-left: auto; align-items: center; }
+.btn-login {
+  height: 40px; padding: 0 20px;
+  background: transparent; border: 1px solid var(--border2);
+  border-radius: 8px; font-size: 14px; font-weight: 600; color: var(--muted);
+  cursor: pointer; transition: all 0.2s;
+}
+.btn-login:hover { border-color: var(--purple); color: var(--purple); }
+.btn-start {
+  height: 40px; padding: 0 20px;
+  background: var(--ink); border: none;
+  border-radius: 8px; font-size: 14px; font-weight: 600; color: #fff;
+  cursor: pointer; transition: all 0.2s;
+}
+.btn-start:hover { background: var(--purple); transform: translateY(-1px); }
+
+/* HERO - Search Centric */
+.hero {
+  height: 520px;
+  background: url('fiverr_hero_bg_1774340824271.png') no-repeat center center/cover;
+  display: flex; align-items: center; justify-content: center;
+  position: relative; text-align: center;
+  padding: 0 24px;
+}
+.hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6));
+}
+.hero-content { position: relative; max-width: 800px; color: #fff; }
+.hero-content h1 { font-size: 48px; font-weight: 700; margin-bottom: 32px; line-height: 1.1; }
+.search-box {
+  display: flex; background: #fff; border-radius: 12px;
+  overflow: hidden; height: 64px; box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  margin-bottom: 24px; padding: 4px;
+}
+.search-box input {
+  flex: 1; border: none; padding: 0 24px; font-size: 16px; outline: none;
+  color: var(--ink);
+}
+.search-box button {
+  width: 160px; background: var(--purple); border: none;
+  border-radius: 8px; color: #fff; font-weight: 700; font-size: 16px;
+  cursor: pointer; transition: background 0.2s;
+}
+.search-box button:hover { background: var(--ink); }
+.popular { display: flex; gap: 12px; justify-content: center; align-items: center; font-size: 14px; }
+.tag {
+  padding: 4px 14px; border: 1px solid rgba(255,255,255,0.6);
+  border-radius: 20px; cursor: pointer; transition: all 0.2s;
+}
+.tag:hover { background: #fff; color: var(--ink); border-color: #fff; }
+
+/* SECTIONS */
+.section { padding: 80px 48px; }
+.s-header { margin-bottom: 48px; }
+.s-header h2 { font-size: 32px; font-weight: 700; color: var(--ink); }
+.s-header p { color: var(--muted); margin-top: 8px; font-size: 16px; }
+
+/* Categories Grid */
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 24px;
+}
+.cat-card {
+  padding: 32px 24px; background: var(--soft); border-radius: 16px;
+  text-align: center; cursor: pointer; transition: all 0.3s;
+  border: 1px solid transparent;
+}
+.cat-card:hover { background: #fff; border-color: var(--purple); transform: translateY(-5px); box-shadow: 0 10px 30px rgba(124,58,237,0.1); }
+.cat-card i { font-size: 32px; color: var(--purple); margin-bottom: 16px; display: block; }
+.cat-card span { font-weight: 700; font-size: 14px; color: var(--ink); }
+
+/* How it works */
+.how-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px;
+}
+.step { position: relative; }
+.step-n { font-size: 64px; font-weight: 800; color: var(--soft); position: absolute; top: -30px; left: -10px; z-index: -1; font-family: 'Space Grotesk'; }
+.step h3 { font-size: 20px; margin-bottom: 12px; color: var(--ink); }
+.step p { font-size: 15px; color: var(--muted); line-height: 1.6; }
+
+/* Trusted Box */
+.trust-band {
+  background: var(--ink); color: #fff; padding: 40px 48px;
+  display: flex; align-items: center; justify-content: center; gap: 64px;
+  opacity: 0.9;
+}
+.trust-band span { font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.1em; }
+.t-logos { display: flex; gap: 48px; align-items: center; }
+.t-logo { font-size: 20px; font-weight: 800; opacity: 0.5; font-family: 'Space Grotesk'; }
+
+/* Gigs Grid */
+.gig-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 32px;
+}
+.gig-card {
+  border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+  transition: all 0.3s;
+}
+.gig-card:hover { transform: translateY(-4px); box-shadow: 0 15px 40px rgba(0,0,0,0.08); }
+.gig-thumb { height: 200px; background: #eee; position: relative; }
+.gig-body { padding: 16px; }
+.seller { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.s-avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--purple); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; }
+.s-name { font-size: 14px; font-weight: 700; color: var(--ink); }
+.gig-title { font-size: 16px; font-weight: 500; color: var(--ink2); height: 44px; overflow: hidden; margin-bottom: 12px; line-clamp: 2; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.gig-meta { display: flex; align-items: center; gap: 4px; color: #ffb33e; font-size: 14px; font-weight: 700; }
+.gig-footer {
+  padding: 16px; border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.gf-label { font-size: 12px; color: var(--muted); font-weight: 600; text-transform: uppercase; }
+.gf-price { font-size: 18px; font-weight: 800; color: var(--ink); }
+
+/* Footer */
+footer {
+  padding: 80px 48px; background: var(--white); border-top: 1px solid var(--border);
+}
+.f-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 64px; margin-bottom: 64px; }
+.f-col h4 { font-size: 16px; font-weight: 700; margin-bottom: 24px; }
+.f-col ul { list-style: none; }
+.f-col li { margin-bottom: 12px; }
+.f-col a { text-decoration: none; color: var(--muted); font-size: 15px; transition: color 0.2s; }
+.f-col a:hover { color: var(--purple); }
+.f-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 40px; border-top: 1px solid var(--border); }
+.f-copy { color: var(--muted); font-size: 14px; }
+
+/* Responsive */
+@media (max-width: 1024px) {
+  nav { padding: 0 24px; }
+  .nl { display: none; }
+  .section { padding: 60px 24px; }
+  .f-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+}
+@media (max-width: 768px) {
+  .hero-content h1 { font-size: 32px; }
+  .search-box { flex-direction: column; height: auto; gap: 8px; background: transparent; box-shadow: none; padding: 0; }
+  .search-box input { height: 56px; border-radius: 12px; width: 100%; }
+  .search-box button { width: 100%; height: 56px; border-radius: 12px; }
+  .popular { display: none; }
+  .how-grid { grid-template-columns: 1fr; }
+  .trust-band { flex-direction: column; gap: 32px; text-align: center; }
+  .t-logos { flex-wrap: wrap; justify-content: center; }
+  .f-grid { grid-template-columns: 1fr; }
+  .f-bottom { flex-direction: column; gap: 20px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="logo-sg">
+    Konekta
+  </a>
+  <div class="nl">
+    <a href="#como">Como Funciona</a>
+    <a href="#cats">Categorias</a>
+    <a href="#gigs">Destaques</a>
+    <a href="#">Soluções</a>
+  </div>
+  <div class="nr">
+    <button class="btn-login">Entrar</button>
+    <button class="btn-start">Começar</button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-content">
+    <h1>Encontra o talento perfeito<br>para o teu próximo projeto.</h1>
+    <div class="search-box">
+      <input type="text" placeholder="Tenta 'Design de Logo' ou 'Web Design'...">
+      <button>Pesquisar</button>
+    </div>
+    <div class="popular">
+      <span>Popular:</span>
+      <span class="tag">Design de Interiores</span>
+      <span class="tag">Marketing</span>
+      <span class="tag">Tradutores</span>
+    </div>
+  </div>
+</section>
+
+<div class="trust-band">
+  <span>Confiado por empresas em Luanda:</span>
+  <div class="t-logos">
+    <div class="t-logo">SOLUTIONS</div>
+    <div class="t-logo">TECH.AO</div>
+    <div class="t-logo">GLOBAL</div>
+    <div class="t-logo">CREATIVE</div>
+  </div>
+</div>
+
+<section class="section" id="cats">
+  <div class="s-header">
+    <h2>Explora por categoria</h2>
+    <p>Os serviços mais procurados no nosso marketplace.</p>
+  </div>
+  <div class="cat-grid">
+    <div class="cat-card">
+      <i data-lucide="palette"></i>
+      <span>Design & Artes</span>
+    </div>
+    <div class="cat-card">
+      <i data-lucide="monitor"></i>
+      <span>Programação</span>
+    </div>
+    <div class="cat-card">
+      <i data-lucide="trending-up"></i>
+      <span>Marketing</span>
+    </div>
+    <div class="cat-card">
+      <i data-lucide="book-open"></i>
+      <span>Tradução</span>
+    </div>
+    <div class="cat-card">
+      <i data-lucide="video"></i>
+      <span>Vídeo</span>
+    </div>
+    <div class="cat-card">
+      <i data-lucide="briefcase"></i>
+      <span>Business</span>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="como" style="background:var(--soft)">
+  <div class="s-header">
+    <h2>Como funciona o Konekta</h2>
+    <p>A forma mais segura de contratar serviços em Angola.</p>
+  </div>
+  <div class="how-grid">
+    <div class="step">
+      <div class="step-n">01</div>
+      <h3>Publica ou Pesquisa</h3>
+      <p>Descreve a tua necessidade ou procura diretamente na nossa grelha de serviços destacados.</p>
+    </div>
+    <div class="step">
+      <div class="step-n">02</div>
+      <h3>Escrow e Segurança</h3>
+      <p>O teu pagamento fica seguro no Konekta. Só libertamos o valor quando confirmas a tarefa feita.</p>
+    </div>
+    <div class="step">
+      <div class="step-n">03</div>
+      <h3>Acesso por USSD</h3>
+      <p>Sem internet? Digita <strong>*920*99#</strong> em qualquer operadora (Unitel/Movicel/Africell) para usar.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="gigs">
+  <div class="s-header">
+    <h2>Serviços em destaque</h2>
+    <p>Os prestadores mais bem avaliados desta semana.</p>
+  </div>
+  <div class="gig-grid">
+    <!-- Gig 1 -->
+    <div class="gig-card">
+      <div class="gig-thumb" style="background:url('https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=400') center/cover"></div>
+      <div class="gig-body">
+        <div class="seller">
+          <div class="s-avatar">OW</div>
+          <span class="s-name">Osvaldo W.</span>
+        </div>
+        <div class="gig-title">Vou criar um logo minimalista e profissional para a sua marca</div>
+        <div class="gig-meta">
+          <i data-lucide="star" style="width:14px; fill:currentColor"></i>
+          5.0 (24)
+        </div>
+      </div>
+      <div class="gig-footer">
+        <span class="gf-label">Desde</span>
+        <span class="gf-price">15.000 Kz</span>
+      </div>
+    </div>
+    <!-- Gig 2 -->
+    <div class="gig-card">
+      <div class="gig-thumb" style="background:url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=400') center/cover"></div>
+      <div class="gig-body">
+        <div class="seller">
+          <div class="s-avatar" style="background:var(--pink)">MJ</div>
+          <span class="s-name">Maria J.</span>
+        </div>
+        <div class="gig-title">Desenvolvimento de Landing Pages otimizadas e responsivas em Next.js</div>
+        <div class="gig-meta">
+          <i data-lucide="star" style="width:14px; fill:currentColor"></i>
+          4.9 (51)
+        </div>
+      </div>
+      <div class="gig-footer">
+        <span class="gf-label">Desde</span>
+        <span class="gf-price">95.000 Kz</span>
+      </div>
+    </div>
+    <!-- Gig 3 -->
+    <div class="gig-card">
+      <div class="gig-thumb" style="background:url('https://images.unsplash.com/photo-1581578731548-c64695cc6954?auto=format&fit=crop&w=400') center/cover"></div>
+      <div class="gig-body">
+        <div class="seller">
+          <div class="s-avatar" style="background:var(--green)">CM</div>
+          <span class="s-name">Carlos M.</span>
+        </div>
+        <div class="gig-title">Limpeza profunda e higienização para apartamentos T3 em Luanda</div>
+        <div class="gig-meta">
+          <i data-lucide="star" style="width:14px; fill:currentColor"></i>
+          4.8 (12)
+        </div>
+      </div>
+      <div class="gig-footer">
+        <span class="gf-label">Desde</span>
+        <span class="gf-price">25.000 Kz</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="f-grid">
+    <div class="f-col">
+      <a href="#" class="logo-sg" style="margin-bottom:24px">
+        Konekta
+      </a>
+      <p style="color:var(--muted); font-size:15px; margin-bottom:24px; max-width:280px">
+        A maior plataforma de serviços freelance de Angola. Conectamos talento a oportunidades reais com segurança absoluta.
+      </p>
+    </div>
+    <div class="f-col">
+      <h4>Plataforma</h4>
+      <ul>
+        <li><a href="#">Como Funciona</a></li>
+        <li><a href="#">Categorias</a></li>
+        <li><a href="#">Preços</a></li>
+        <li><a href="#">Segurança</a></li>
+      </ul>
+    </div>
+    <div class="f-col">
+      <h4>Empresa</h4>
+      <ul>
+        <li><a href="#">Sobre Nós</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Contactos</a></li>
+        <li><a href="#">Carreiras</a></li>
+      </ul>
+    </div>
+    <div class="f-col">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="#">Termos de Uso</a></li>
+        <li><a href="#">Privacidade</a></li>
+        <li><a href="#">Cookies</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="f-bottom">
+    <div class="f-copy">&copy; 2026 Konekta. Todos os direitos reservados. · Luanda, Angola</div>
+    <div style="display:flex; gap:20px">
+      <i data-lucide="facebook" style="width:20px; color:var(--muted); cursor:pointer"></i>
+      <i data-lucide="instagram" style="width:20px; color:var(--muted); cursor:pointer"></i>
+      <i data-lucide="linkedin" style="width:20px; color:var(--muted); cursor:pointer"></i>
+    </div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+  lucide.createIcons();
+</script>
+</body>
+</html>

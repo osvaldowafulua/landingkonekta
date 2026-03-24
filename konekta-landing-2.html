@@ -31,21 +31,25 @@ body{
   font-weight:400;
   overflow-x:hidden;
 }
-
 /* ── NAV ── */
 nav {
   position:fixed;
   top:0; left:0; right:0;
   z-index:100;
   padding:0 48px;
-  height:64px;
+  height:72px;
   display:flex;
   align-items:center;
-  justify-content:space-between;
   background:rgba(255,255,255,0.85);
   backdrop-filter:blur(20px);
   -webkit-backdrop-filter:blur(20px);
   border-bottom:1px solid var(--border);
+}
+
+.nav-left-group {
+  display:flex;
+  align-items:center;
+  gap:32px;
 }
 
 .logo {
@@ -82,7 +86,99 @@ nav {
 .nav-center a:hover { color:var(--ink); background:var(--bg); }
 .nav-center a.active { color:var(--ink); background:var(--bg); }
 
-.nav-right { display:flex; gap:10px; align-items:center; }
+/* Header Search */
+.header-search {
+  flex:1;
+  max-width:440px;
+  margin:0 40px;
+  opacity: 0;
+  transform: translateY(-8px) scale(0.98);
+  pointer-events: none;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+.header-search.active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.h-search-box {
+  display:flex;
+  align-items:center;
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.5);
+  border-radius:16px;
+  height:48px;
+  padding:0 6px 0 16px;
+  transition: all 0.3s;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+}
+.h-search-box:focus-within {
+  background: #fff;
+  border-color: var(--ink);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+.h-search-box input {
+  flex:1;
+  border:none;
+  background:transparent;
+  padding:0 12px;
+  font-size:15px;
+  outline:none;
+  font-family:inherit;
+  color: var(--ink);
+}
+.h-search-box input::placeholder { color: #999; }
+
+.h-search-btn {
+  width:36px; height:36px;
+  background: var(--ink);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  display: flex;
+  align-items:center;
+  justify-content:center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.h-search-btn:hover { background: var(--ink2); transform: scale(1.05); }
+
+/* Smart Results */
+.smart-results {
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 0; right: 0;
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0,0,0,0.05);
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+  padding: 10px;
+  display: none;
+  z-index: 1000;
+  transform-origin: top;
+}
+.smart-results.show { display: block; animation: fadeUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.sr-item {
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 14px;
+  color: var(--ink);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: background 0.2s;
+}
+.sr-item:hover { background: #f5f5f7; }
+.sr-item i { color: var(--muted); width: 16px; }
+.sr-label { font-size: 11px; font-weight: 700; color: #aaa; text-transform: uppercase; padding: 10px 14px 4px; }
+
+.nav-right { display:flex; gap:10px; align-items:center; margin-left:auto; }
 
 .btn-outline {
   height:36px; padding:0 18px;
@@ -113,9 +209,14 @@ nav {
 }
 
 @media (max-width: 480px) {
-  .h1-aurora { font-size: 38px; }
-  .cats-grid { grid-template-columns: 1fr; }
+  h1.hero-h1 { font-size: 42px !important; line-height: 1.1; margin-bottom: 20px; }
+  .hero-sub { font-size: 15px; padding: 0 10px; margin-bottom: 32px; }
+  .hero-cta-row { flex-direction: column; width: 100%; padding: 0 20px; gap: 12px; }
+  .cta-big { width: 100%; justify-content: center; height: 52px; }
+  .hero-badge { margin-bottom: 24px; scale: 0.9; }
   .nav-right .btn-fill { display: none; }
+  .cats-grid { grid-template-columns: 1fr; }
+  .float-card { display: none !important; }
 }
 
 .btn-fill {
@@ -626,15 +727,32 @@ footer {
 
 <!-- NAV -->
 <nav>
-  <a href="#" class="logo">
-    Konekta
-  </a>
-  <div class="nav-center">
-    <a href="#" class="active">Início</a>
-    <a href="#">Categorias</a>
-    <a href="#">Como funciona</a>
-    <a href="#">Preços</a>
+  <div class="nav-left-group">
+    <a href="#" class="logo">Konekta</a>
+    <div class="nav-center">
+      <a href="#" class="active">Início</a>
+      <a href="#">Categorias</a>
+      <a href="#">Como funciona</a>
+      <a href="#">Preços</a>
+    </div>
   </div>
+
+  <div class="header-search" id="headerSearch">
+    <div class="h-search-box">
+      <input type="text" id="smartInput" placeholder="O que procuras em Luanda?" autocomplete="off">
+      <button class="h-search-btn">
+        <i data-lucide="search" style="width:18px"></i>
+      </button>
+    </div>
+    <div class="smart-results" id="smartResults">
+      <div class="sr-label">Sugestões inteligentes</div>
+      <div class="sr-item"><i data-lucide="zap"></i> Canalização Urgente</div>
+      <div class="sr-item"><i data-lucide="palette"></i> Design de Logotipo</div>
+      <div class="sr-item"><i data-lucide="home"></i> Limpeza Doméstica</div>
+      <div class="sr-item"><i data-lucide="code"></i> Website Institucional</div>
+    </div>
+  </div>
+
   <div class="nav-right">
     <button class="btn-outline">Entrar</button>
     <button class="btn-fill">Começar →</button>
@@ -663,6 +781,8 @@ footer {
     O trabalho<br>
     <span class="h1-highlight">encontra-te</span>
   </h1>
+
+ <!-- Espaço compensatório para o search removido -->
 
   <p class="hero-sub">
     Publica uma tarefa ou oferece o teu serviço — pagamento seguro, 
@@ -864,6 +984,34 @@ footer {
 <script src="https://unpkg.com/lucide@latest"></script>
 <script>
   lucide.createIcons();
+
+  // Scroll visibility for Header Search
+  const headerSearch = document.getElementById('headerSearch');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 200) {
+      headerSearch.classList.add('active');
+    } else {
+      headerSearch.classList.remove('active');
+    }
+  });
+
+  // Smart Search logic
+  const smartInput = document.getElementById('smartInput');
+  const smartResults = document.getElementById('smartResults');
+
+  smartInput.addEventListener('input', (e) => {
+    if (e.target.value.length > 1) {
+      smartResults.classList.add('show');
+    } else {
+      smartResults.classList.remove('show');
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!headerSearch.contains(e.target)) {
+      smartResults.classList.remove('show');
+    }
+  });
 </script>
 
 </body>
