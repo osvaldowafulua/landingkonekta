@@ -455,17 +455,37 @@ footer{
 }
 .fl{font-family:'Fraunces',serif;font-weight:900;font-size:16px;color:var(--muted);letter-spacing:-.03em}
 .fc{font-size:12px;color:var(--muted)}
-.lc-inline{width:16px;height:16px;vertical-align:text-bottom;margin-right:4px}
+.lc-inline{width:16px;height:16px;vertical-align:middle;margin-right:4px}
 .lc-feat{width:20px;height:20px}
+
+@media (max-width: 1024px) {
+  nav { padding: 0 40px; }
+  .n-links { display: none; }
+}
+
+@media (max-width: 768px) {
+  .hero { grid-template-columns: 1fr; padding-top: 100px; text-align: center; }
+  .hero-left { align-items: center; }
+  .h1-serif { font-size: 48px; }
+  .hero-actions { flex-direction: column; width: 100%; }
+  .hero-actions button { width: 100%; }
+  .hero-right { order: -1; margin-bottom: 40px; }
+  .float-stat { display: none; }
+  .ussd-section { grid-template-columns: 1fr; padding: 60px 24px; gap: 40px; }
+  .about { grid-template-columns: 1fr; padding: 60px 24px; }
+}
+
+@media (max-width: 480px) {
+  .h1-serif { font-size: 38px; }
+  .n-ctas { display: none; }
+  .cats-grid { grid-template-columns: 1fr 1fr; }
+}
 </style>
 </head>
 <body>
 
 <nav>
   <a href="#" class="logo-fr">
-    <div class="logo-leaf">
-      <i data-lucide="leaf" style="width:16px;height:16px;color:#fff"></i>
-    </div>
     Konekta
   </a>
   <div class="n-links">
@@ -530,14 +550,15 @@ footer{
         <div class="tc-emoji">
           <i data-lucide="wrench" class="lc-feat" style="color:var(--brown)"></i>
         </div>
+        <div>
           <div class="tc-title">Reparação de canalização urgente</div>
           <div class="tc-meta">Ingombota · Publicado há 5 min</div>
         </div>
         <div class="tc-price">15.000 Kz</div>
       </div>
       <div class="tc-foot">
-        <span class="tc-badge b-terra">⚡ Urgente</span>
-        <span class="tc-badge b-olive">✓ Verificado</span>
+        <span class="tc-badge b-terra"><i data-lucide="zap" class="lc-inline"></i> Urgente</span>
+        <span class="tc-badge b-olive"><i data-lucide="check-circle" class="lc-inline"></i> Verificado</span>
         <div class="tc-provider">
           <div class="p-av">RC</div>
           Rui C. enviou proposta
@@ -550,13 +571,14 @@ footer{
         <div class="tc-emoji">
           <i data-lucide="monitor" class="lc-feat" style="color:var(--olive)"></i>
         </div>
+        <div>
           <div class="tc-title">Desenvolvimento de app React</div>
           <div class="tc-meta">Talatona · Publicado há 2 h</div>
         </div>
         <div class="tc-price">180.000 Kz</div>
       </div>
       <div class="tc-foot">
-        <span class="tc-badge b-gold">🎓 Expert</span>
+        <span class="tc-badge b-gold"><i data-lucide="award" class="lc-inline"></i> Expert</span>
         <span class="tc-badge b-olive">3 propostas</span>
         <div class="tc-provider">
           <div class="p-av" style="background:var(--olive)">JN</div>
@@ -570,6 +592,7 @@ footer{
         <div class="tc-emoji">
           <i data-lucide="brush" class="lc-feat" style="color:var(--terra)"></i>
         </div>
+        <div>
           <div class="tc-title">Limpeza profunda T3</div>
           <div class="tc-meta">Maianga · Publicado há 1 h</div>
         </div>

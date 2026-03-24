@@ -51,23 +51,13 @@ nav {
 .logo {
   font-family:'Cabinet Grotesk',sans-serif;
   font-weight:900;
-  font-size:20px;
+  font-size:24px;
   letter-spacing:-0.04em;
   color:var(--ink);
   text-decoration:none;
   display:flex;
   align-items:center;
   gap:8px;
-}
-
-.logo-k {
-  width:30px; height:30px;
-  background:var(--ink);
-  border-radius:8px;
-  display:flex; align-items:center; justify-content:center;
-  color:#fff;
-  font-size:14px;
-  font-weight:900;
 }
 
 .nav-center {
@@ -106,6 +96,27 @@ nav {
   transition:all 0.2s;
 }
 .btn-outline:hover { background:var(--bg2); }
+
+@media (max-width: 1024px) {
+  nav { padding: 0 24px; }
+  .nav-center { display: none; }
+}
+
+@media (max-width: 768px) {
+  .hero { grid-template-columns: 1fr; padding: 120px 24px 60px; text-align: center; }
+  .h-left { align-items: center; }
+  .h1-aurora { font-size: 48px; }
+  .cta-row { justify-content: center; }
+  .cats-grid { grid-template-columns: 1fr 1fr; }
+  .features { grid-template-columns: 1fr; padding: 60px 24px; }
+  .pricing { grid-template-columns: 1fr; padding: 60px 24px; }
+}
+
+@media (max-width: 480px) {
+  .h1-aurora { font-size: 38px; }
+  .cats-grid { grid-template-columns: 1fr; }
+  .nav-right .btn-fill { display: none; }
+}
 
 .btn-fill {
   height:36px; padding:0 18px;
@@ -616,7 +627,6 @@ footer {
 <!-- NAV -->
 <nav>
   <a href="#" class="logo">
-    <div class="logo-k">K</div>
     Konekta
   </a>
   <div class="nav-center">

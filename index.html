@@ -63,22 +63,13 @@ nav {
 .logo {
   font-family:'Cabinet Grotesk',sans-serif;
   font-weight:900;
-  font-size:24px;
+  font-size:28px;
   letter-spacing:-0.04em;
   color:var(--ink);
   text-decoration:none;
   display:flex;
   align-items:center;
-  gap:10px;
-}
-.logo-k {
-  width:32px; height:32px;
-  background:var(--ink);
-  border-radius:10px;
-  display:flex; align-items:center; justify-content:center;
-  color:#fff;
-  font-size:16px;
-  font-weight:900;
+  gap:8px;
 }
 
 /* ── MAIN CONTENT ── */
@@ -241,24 +232,40 @@ p.intro {
 .iti__flag-container { padding-left: 10px; }
 .iti--allow-dropdown input { padding-left: 52px !important; }
 
-input, select {
-  width:100%;
-  height:52px;
-  background:rgba(255,255,255,0.9);
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:0 16px 0 46px;
-  font-family:'Instrument Sans',sans-serif;
-  font-size:15px;
-  color:var(--ink);
-  outline:none;
-  transition:all 0.2s;
-}
-
 input:focus, select:focus {
   border-color:var(--ink);
   background:#fff;
   box-shadow:0 0 0 4px rgba(0,0,0,0.03);
+}
+
+.input-prefix-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: rgba(255,255,255,0.9);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: all 0.2s;
+}
+.input-prefix-wrapper:focus-within {
+  border-color: var(--ink);
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(0,0,0,0.03);
+}
+.prefix-text {
+  padding-left: 46px;
+  font-size: 14px;
+  color: var(--muted);
+  font-weight: 500;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.prefix-input {
+  border: none !important;
+  background: transparent !important;
+  padding-left: 4px !important;
+  box-shadow: none !important;
 }
 
 .btn-submit {
@@ -364,11 +371,26 @@ footer {
 }
 
 /* ── MOBILE OPTIMIZATION ── */
-@media (max-width:600px) {
-  nav { padding:24px; }
-  main { padding:20px 20px 60px; }
-  h1 { font-size:48px; }
-  .form-container { padding:30px 20px; }
+@media (max-width: 900px) {
+  .form-container { padding: 40px; }
+  h1 { font-size: 64px; }
+}
+
+@media (max-width: 768px) {
+  nav { padding: 24px; }
+  main { padding: 40px 20px 80px; }
+  h1 { font-size: 52px; }
+  p.intro { margin-bottom: 32px; }
+  .form-container { padding: 32px 24px; border-radius: 24px; }
+  .form-row { flex-direction: column; gap: 16px; }
+}
+
+@media (max-width: 480px) {
+  h1 { font-size: 40px; }
+  .btn-submit { height: 52px; font-size: 15px; }
+  .prefix-text { font-size: 12px; padding-left: 40px; }
+  .input-wrapper i { left: 14px; width: 16px; }
+  input, select { padding-left: 40px; font-size: 14px; }
 }
 </style>
 </head>
@@ -383,7 +405,6 @@ footer {
 
 <nav>
   <a href="#" class="logo">
-    <div class="logo-k">K</div>
     Konekta
   </a>
 </nav>
@@ -475,18 +496,20 @@ footer {
 
         <div class="form-row">
           <div class="form-group">
-            <label for="linkedin">Linkedin (Opcional)</label>
-            <div class="input-wrapper">
+            <label for="linkedin">Linkedin Username (Opcional)</label>
+            <div class="input-prefix-wrapper">
               <i data-lucide="linkedin"></i>
-              <input type="url" id="linkedin" placeholder="https://linkedin.com/perfil">
+              <span class="prefix-text">linkedin.com/in/</span>
+              <input type="text" id="linkedin" class="prefix-input" placeholder="teu-perfil">
             </div>
           </div>
 
           <div class="form-group">
-            <label for="facebook">Facebook (Opcional)</label>
-            <div class="input-wrapper">
+            <label for="facebook">Facebook Username (Opcional)</label>
+            <div class="input-prefix-wrapper">
               <i data-lucide="facebook"></i>
-              <input type="url" id="facebook" placeholder="https://facebook.com/perfil">
+              <span class="prefix-text">facebook.com/</span>
+              <input type="text" id="facebook" class="prefix-input" placeholder="teu-perfil">
             </div>
           </div>
         </div>
@@ -594,12 +617,18 @@ footer {
     const formData = new FormData();
     const fullPhoneNumber = iti.getNumber();
     
+    const linkedinHandle = document.getElementById('linkedin').value.replace(/^@/, '');
+    const facebookHandle = document.getElementById('facebook').value.replace(/^@/, '');
+    
+    const linkedinURL = linkedinHandle ? `https://linkedin.com/in/${linkedinHandle}` : '';
+    const facebookURL = facebookHandle ? `https://facebook.com/${facebookHandle}` : '';
+
     formData.append('nome', document.getElementById('name').value);
     formData.append('telefone', fullPhoneNumber);
     formData.append('email', document.getElementById('email').value);
     formData.append('perfil', document.getElementById('profile').value);
-    formData.append('linkedin', document.getElementById('linkedin').value);
-    formData.append('facebook', document.getElementById('facebook').value);
+    formData.append('linkedin', linkedinURL);
+    formData.append('facebook', facebookURL);
 
     try {
       // FORMSPREE INTEGRATION (Immediate "real email" receiver)
@@ -619,8 +648,8 @@ footer {
           telefone: fullPhoneNumber,
           email: document.getElementById('email').value,
           perfil: document.getElementById('profile').value,
-          linkedin: document.getElementById('linkedin').value,
-          facebook: document.getElementById('facebook').value,
+          linkedin: linkedinURL,
+          facebook: facebookURL,
           data: new Date().toISOString()
         };
         const leads = JSON.parse(localStorage.getItem('konekta_leads') || '[]');

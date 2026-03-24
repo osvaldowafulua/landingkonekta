@@ -61,17 +61,11 @@ nav::before{
 }
 .n-logo{
   font-family:'Bricolage Grotesque',sans-serif;
-  font-size:17px;font-weight:800;
+  font-size:24px;font-weight:800;
   letter-spacing:-0.04em;
   color:var(--text);
   text-decoration:none;
   display:flex;align-items:center;gap:8px;
-}
-.n-gem{
-  width:26px;height:26px;
-  background:conic-gradient(from 0deg, var(--blue),var(--violet),var(--cyan),var(--blue));
-  border-radius:6px;
-  animation:spin-slow 6s linear infinite;
 }
 @keyframes spin-slow{to{filter:hue-rotate(360deg)}}
 .n-links{display:flex;gap:28px;flex:1;justify-content:center}
@@ -441,6 +435,25 @@ footer{
 .lc-feat{width:18px;height:18px;color:var(--blue2)}
 
 @keyframes fade-up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@media (max-width: 1024px) {
+  nav { padding: 0 24px; gap: 20px; }
+  .n-links { display: none; }
+}
+
+@media (max-width: 768px) {
+  .hero { padding: 80px 24px 60px; text-align: center; }
+  h1.h-title { font-size: 52px; }
+  .h-cta-row { flex-direction: column; gap: 12px; width: 100%; }
+  .f-grid { grid-template-columns: 1fr; }
+  .trust-row { grid-template-columns: 1fr 1fr; }
+  .tr-item { border-right: none; border-bottom: 1px solid var(--ring); }
+}
+
+@media (max-width: 480px) {
+  h1.h-title { font-size: 40px; }
+  .n-r { display: none; }
+  .trust-row { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
@@ -449,7 +462,6 @@ footer{
 
 <nav>
   <a href="#" class="n-logo">
-    <div class="n-gem"></div>
     Konekta
   </a>
   <div class="n-links">

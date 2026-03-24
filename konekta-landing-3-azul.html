@@ -45,6 +45,31 @@ body {
 }
 .cur.big { width:40px; height:40px; background:rgba(14,12,9,0.1); }
 
+@media (max-width: 1024px) {
+  .cur { display: none; }
+  body { cursor: default; }
+  nav { padding: 0 24px; }
+  .nav-links { display: none; }
+}
+
+@media (max-width: 768px) {
+  .hero-grid { grid-template-columns: 1fr; }
+  .hg-left { border-right: none; border-bottom: 2px solid var(--ink); padding: 40px 24px; text-align: center; }
+  .hg-right { padding: 40px 24px; }
+  .h1-hero { font-size: 60px; }
+  .cats-section { grid-template-columns: 1fr; }
+  .cs-left { border-right: none; border-bottom: 2px solid var(--ink); }
+  .cta-final { grid-template-columns: 1fr; }
+  .cf-left { border-right: none; border-bottom: 2px solid var(--ink); }
+  .topbar { padding: 8px 24px; text-align: center; }
+  .nav-logo { border-right: none; padding-right: 0; }
+}
+
+@media (max-width: 480px) {
+  .h1-hero { font-size: 40px; }
+  .nav-cta { display: none; }
+}
+
 /* ── TOPBAR ── */
 .topbar {
   background:var(--ink);
