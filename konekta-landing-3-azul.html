@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Konekta — Modelo 3 Editorial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Familjen+Grotesk:ital,wght@0,400;0,500;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #f5f0e8;
+  --paper2: #ede8d8;
+  --ink:   #0e0c09;
+  --ink2:  #1e1a14;
+  --rust:  #1a56db;
+  --gold:  #60a5fa;
+  --sage:  #4a7c59;
+  --muted: #7a7060;
+  --border:#c8c0a8;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+
+body {
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Familjen Grotesk', sans-serif;
+  font-weight:400;
+  overflow-x:hidden;
+  cursor:none;
+}
+
+/* ── CURSOR ── */
+.cur {
+  width:14px; height:14px;
+  border:2px solid var(--ink);
+  border-radius:50%;
+  position:fixed;
+  pointer-events:none;
+  z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:width 0.2s, height 0.2s, background 0.2s;
+  mix-blend-mode: difference;
+}
+.cur.big { width:40px; height:40px; background:rgba(14,12,9,0.1); }
+
+/* ── TOPBAR ── */
+.topbar {
+  background:var(--ink);
+  padding:8px 48px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+}
+.topbar-text {
+  font-family:'JetBrains Mono', monospace;
+  font-size:11px;
+  color:var(--gold);
+  letter-spacing:0.08em;
+}
+.tb-dot { width:5px;height:5px;background:var(--rust);border-radius:50%; }
+
+/* ── NAV ── */
+nav {
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:var(--paper);
+  border-bottom:2px solid var(--ink);
+  padding:0 48px;
+  display:flex;
+  align-items:stretch;
+  height:64px;
+}
+
+.nav-logo {
+  display:flex;
+  align-items:center;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:26px;
+  letter-spacing:0.08em;
+  color:var(--ink);
+  text-decoration:none;
+  padding-right:36px;
+  border-right:2px solid var(--ink);
+  margin-right:32px;
+}
+
+.nav-links {
+  display:flex;
+  align-items:center;
+  gap:0;
+  list-style:none;
+  flex:1;
+}
+.nav-links li {
+  border-right:1px solid var(--border);
+  height:100%;
+  display:flex;
+  align-items:center;
+}
+.nav-links a {
+  padding:0 24px;
+  font-size:12px;
+  font-weight:500;
+  color:var(--muted);
+  text-decoration:none;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  transition:color 0.2s;
+  display:block;
+  height:100%;
+  display:flex;
+  align-items:center;
+}
+.nav-links a:hover { color:var(--ink); }
+
+.nav-right {
+  display:flex;
+  align-items:center;
+  gap:0;
+  margin-left:auto;
+  border-left:2px solid var(--ink);
+}
+
+.nav-btn-a, .nav-btn-b {
+  padding:0 24px;
+  height:100%;
+  display:flex;
+  align-items:center;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  cursor:pointer;
+  border:none;
+  font-family:'Familjen Grotesk',sans-serif;
+  transition:all 0.2s;
+}
+.nav-btn-a {
+  background:transparent;
+  color:var(--muted);
+  border-right:2px solid var(--ink);
+}
+.nav-btn-a:hover { background:var(--paper2); color:var(--ink); }
+
+.nav-btn-b {
+  background:var(--rust);
+  color:#fff;
+}
+.nav-btn-b:hover { background:#a83820; }
+
+/* ── HERO ── */
+.hero {
+  border-bottom:2px solid var(--ink);
+  display:grid;
+  grid-template-columns:1fr 380px;
+  min-height:calc(100vh - 88px);
+}
+
+.hero-left {
+  border-right:2px solid var(--ink);
+  padding:64px 56px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  position:relative;
+  overflow:hidden;
+}
+
+/* Big number watermark */
+.hero-watermark {
+  position:absolute;
+  bottom:-40px;
+  left:-20px;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:320px;
+  color:rgba(14,12,9,0.04);
+  pointer-events:none;
+  line-height:1;
+  letter-spacing:-0.05em;
+  user-select:none;
+}
+
+.hero-issue {
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:32px;
+}
+
+h1.editorial {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(80px,11vw,160px);
+  line-height:0.92;
+  letter-spacing:0.02em;
+  margin-bottom:0;
+  position:relative;
+}
+
+.e-line1 { display:block; color:var(--ink); }
+.e-line2 { display:block; color:var(--rust); }
+.e-line3 { display:block; color:var(--ink); }
+
+.hero-sub-row {
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  margin-top:40px;
+  padding-top:32px;
+  border-top:1px solid var(--border);
+}
+
+.hero-tagline {
+  font-size:16px;
+  line-height:1.6;
+  max-width:380px;
+  color:var(--muted);
+  font-style:italic;
+}
+
+.hero-btns {
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  align-items:flex-end;
+}
+
+.btn-rust {
+  padding:14px 28px;
+  background:var(--rust);
+  border:2px solid var(--rust);
+  color:#fff;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  cursor:pointer;
+  font-family:'Familjen Grotesk',sans-serif;
+  transition:all 0.2s;
+}
+.btn-rust:hover { background:var(--ink); border-color:var(--ink); }
+
+.btn-ink-out {
+  padding:14px 28px;
+  background:transparent;
+  border:2px solid var(--ink);
+  color:var(--ink);
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  cursor:pointer;
+  font-family:'Familjen Grotesk',sans-serif;
+  transition:all 0.2s;
+}
+.btn-ink-out:hover { background:var(--ink); color:var(--paper); }
+
+/* Hero right column */
+.hero-right {
+  display:flex;
+  flex-direction:column;
+}
+
+.hero-stat-block {
+  flex:1;
+  border-bottom:2px solid var(--ink);
+  padding:36px 32px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  transition:background 0.2s;
+}
+.hero-stat-block:last-child { border-bottom:none; }
+.hero-stat-block:hover { background:var(--paper2); }
+
+.stat-big {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:56px;
+  line-height:1;
+  letter-spacing:0.02em;
+  margin-bottom:6px;
+}
+.stat-big.rust { color:var(--rust); }
+.stat-big.gold { color:var(--gold); }
+.stat-big.sage { color:var(--sage); }
+.stat-big.ink  { color:var(--ink); }
+
+.stat-label-big {
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:8px;
+}
+.stat-desc {
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.5;
+}
+
+/* ── MARQUEE ── */
+.tape {
+  background:var(--ink);
+  overflow:hidden;
+  padding:14px 0;
+  border-bottom:2px solid var(--ink);
+}
+.tape-track {
+  display:flex;
+  animation: tape 18s linear infinite;
+  width:max-content;
+}
+.tape-item {
+  display:flex;
+  align-items:center;
+  gap:20px;
+  padding:0 20px;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:22px;
+  letter-spacing:0.05em;
+  color:var(--paper);
+  white-space:nowrap;
+}
+.tape-sep {
+  width:8px; height:8px;
+  background:var(--rust);
+  border-radius:50%;
+  flex-shrink:0;
+}
+@keyframes tape { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+/* ── HOW IT WORKS ── */
+.how-section {
+  border-bottom:2px solid var(--ink);
+  display:grid;
+  grid-template-columns:300px 1fr;
+}
+
+.how-label-col {
+  border-right:2px solid var(--ink);
+  padding:56px 40px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+
+.section-marker {
+  writing-mode:vertical-rl;
+  text-orientation:mixed;
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+
+.big-section-num {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:120px;
+  line-height:1;
+  color:var(--paper2);
+  letter-spacing:0.02em;
+}
+
+.how-content {
+  display:grid;
+  grid-template-rows:1fr 1fr 1fr;
+}
+
+.how-step {
+  display:grid;
+  grid-template-columns:80px 1fr;
+  border-bottom:1px solid var(--border);
+  transition:background 0.2s;
+}
+.how-step:last-child { border-bottom:none; }
+.how-step:hover { background:var(--paper2); }
+
+.step-n {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:36px;
+  color:var(--border);
+  border-right:1px solid var(--border);
+}
+
+.step-body { padding:32px 36px; }
+.step-tag {
+  display:inline-block;
+  padding:3px 10px;
+  border:1px solid var(--border);
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  letter-spacing:0.08em;
+  color:var(--muted);
+  margin-bottom:12px;
+}
+.step-title {
+  font-size:22px;
+  font-weight:700;
+  margin-bottom:8px;
+  letter-spacing:-0.01em;
+}
+.step-text { font-size:14px; color:var(--muted); line-height:1.6; }
+
+/* ── CATEGORIES ── */
+.cat-section {
+  border-bottom:2px solid var(--ink);
+  padding:64px 56px;
+}
+
+.sec-header {
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  margin-bottom:48px;
+  border-bottom:1px solid var(--border);
+  padding-bottom:20px;
+}
+
+.sec-title-ed {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(40px,5vw,72px);
+  letter-spacing:0.04em;
+  line-height:1;
+}
+
+.sec-hint {
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  color:var(--muted);
+  letter-spacing:0.08em;
+}
+
+.cat-list {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:0;
+  border:1px solid var(--border);
+}
+
+.cat-item {
+  padding:28px 24px;
+  border-right:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  cursor:pointer;
+  transition:background 0.2s;
+  position:relative;
+}
+.cat-item:nth-child(4n) { border-right:none; }
+.cat-item:nth-last-child(-n+4) { border-bottom:none; }
+.cat-item:hover { background:var(--ink); color:var(--paper); }
+.cat-item:hover .cat-c { color:rgba(245,240,232,0.4); }
+
+.cat-e { font-size:28px; margin-bottom:12px; }
+.cat-n { font-size:14px; font-weight:700; margin-bottom:4px; }
+.cat-c { font-size:11px; color:var(--muted); font-family:'JetBrains Mono',monospace; transition:color 0.2s; }
+
+/* ── TRUST STRIP ── */
+.trust-strip {
+  background:var(--rust);
+  border-bottom:2px solid var(--ink);
+  padding:56px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:0;
+}
+
+.trust-item {
+  padding:0 40px;
+  border-right:1px solid rgba(255,255,255,0.2);
+}
+.trust-item:first-child { padding-left:0; }
+.trust-item:last-child  { border-right:none; }
+
+.ti-icon { font-size:28px; margin-bottom:14px; }
+.ti-title {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:20px;
+  letter-spacing:0.04em;
+  color:#fff;
+  margin-bottom:8px;
+}
+.ti-desc { font-size:12px; color:rgba(255,255,255,0.65); line-height:1.6; }
+
+/* ── USSD FEATURE ── */
+.ussd-feature {
+  border-bottom:2px solid var(--ink);
+  display:grid;
+  grid-template-columns:1fr 1fr;
+}
+
+.ussd-left {
+  padding:64px 56px;
+  border-right:2px solid var(--ink);
+  background:var(--ink);
+  color:var(--paper);
+}
+
+.ussd-eyebrow {
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:20px;
+}
+
+.ussd-title {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(48px,5vw,72px);
+  letter-spacing:0.04em;
+  line-height:1;
+  margin-bottom:20px;
+  color:var(--paper);
+}
+
+.ussd-code {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:80px;
+  letter-spacing:0.04em;
+  color:var(--gold);
+  line-height:1;
+  margin-bottom:24px;
+}
+
+.ussd-desc {
+  font-size:15px;
+  color:rgba(245,240,232,0.6);
+  line-height:1.65;
+  max-width:380px;
+}
+
+.ussd-right {
+  padding:64px 56px;
+  background:var(--paper2);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+.phone-mockup {
+  background:var(--ink);
+  border-radius:16px;
+  padding:24px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;
+  color:var(--gold);
+  line-height:1.8;
+  max-width:360px;
+  border:3px solid var(--ink);
+  box-shadow:8px 8px 0 var(--ink);
+}
+
+.pm-header {
+  color:rgba(232,160,32,0.5);
+  font-size:11px;
+  margin-bottom:12px;
+  padding-bottom:10px;
+  border-bottom:1px solid rgba(232,160,32,0.15);
+}
+
+.pm-menu-item { color:rgba(245,240,232,0.8); }
+.pm-menu-item.active { color:var(--gold); }
+
+/* ── CTA ── */
+.final-cta-ed {
+  background:var(--paper);
+  border-bottom:2px solid var(--ink);
+  padding:80px 56px;
+  display:grid;
+  grid-template-columns:1fr auto;
+  align-items:center;
+  gap:80px;
+}
+
+.cta-left h2 {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(48px,7vw,100px);
+  letter-spacing:0.02em;
+  line-height:0.95;
+  margin-bottom:16px;
+}
+.cta-left h2 span { color:var(--rust); }
+.cta-left p {
+  font-size:16px;
+  color:var(--muted);
+  font-style:italic;
+  max-width:500px;
+}
+
+.cta-right {
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  align-items:stretch;
+  min-width:220px;
+}
+
+/* ── FOOTER ── */
+footer {
+  background:var(--ink);
+  color:var(--paper);
+  padding:48px 56px;
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  align-items:center;
+  gap:40px;
+}
+
+.foot-logo {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:28px;
+  letter-spacing:0.08em;
+  color:var(--paper);
+}
+
+.foot-links {
+  display:flex;
+  gap:24px;
+  justify-content:center;
+}
+.foot-links a {
+  font-size:11px;
+  color:rgba(245,240,232,0.4);
+  text-decoration:none;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  font-weight:500;
+  transition:color 0.2s;
+}
+.foot-links a:hover { color:var(--paper); }
+
+.foot-copy {
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  color:rgba(245,240,232,0.3);
+  text-align:right;
+  line-height:1.6;
+}
+.lc-inline{width:16px;height:16px;vertical-align:text-bottom;margin-right:4px}
+.lc-feat{width:24px;height:24px;margin-bottom:12px}
+</style>
+</head>
+<body>
+
+<div class="cur" id="cur"></div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="tb-dot"></div>
+  <span class="topbar-text">Konekta está disponível em Luanda, Angola · Versão 1.0 · Go-live: Abril 2026</span>
+  <div class="tb-dot"></div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Konekta</a>
+  <ul class="nav-links">
+    <li><a href="#">Como funciona</a></li>
+    <li><a href="#">Categorias</a></li>
+    <li><a href="#">Para prestadores</a></li>
+    <li><a href="#">Preços</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="nav-btn-a">Entrar</button>
+    <button class="nav-btn-b">Publicar tarefa</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-watermark">K</div>
+    <div>
+      <div class="hero-issue">Vol. I · Mar 2026 · Luanda, Angola</div>
+      <h1 class="editorial">
+        <span class="e-line1">Onde</span>
+        <span class="e-line2">Todos</span>
+        <span class="e-line3">Ganham</span>
+      </h1>
+    </div>
+    <div class="hero-sub-row">
+      <p class="hero-tagline">
+        O marketplace on-demand que conecta quem precisa de uma tarefa feita a quem quer ganhar ao realizá-la.
+      </p>
+      <div class="hero-btns">
+        <button class="btn-rust">Publicar tarefa →</button>
+        <button class="btn-ink-out">Sou prestador</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-stat-block">
+      <div class="stat-label-big">Prestadores activos</div>
+      <div class="stat-big rust">1.200+</div>
+      <div class="stat-desc">Verificados com KYC em toda a área de Luanda</div>
+    </div>
+    <div class="hero-stat-block">
+      <div class="stat-label-big">Tarefas concluídas</div>
+      <div class="stat-big gold">8.500+</div>
+      <div class="stat-desc">Com pagamento garantido e avaliações reais</div>
+    </div>
+    <div class="hero-stat-block">
+      <div class="stat-label-big">Avaliação média</div>
+      <div class="stat-big sage">4.8 / 5</div>
+      <div class="stat-desc">Baseado em avaliações verificadas pós-tarefa</div>
+    </div>
+    <div class="hero-stat-block">
+      <div class="stat-label-big">Pagamentos seguros</div>
+      <div class="stat-big ink">100%</div>
+      <div class="stat-desc">Sistema de escrow via Multicaixa Express</div>
+    </div>
+  </div>
+</section>
+
+<!-- TAPE -->
+<div class="tape">
+  <div class="tape-track">
+    <div class="tape-item"><span class="tape-sep"></span>Electricidade</div>
+    <div class="tape-item"><span class="tape-sep"></span>Limpeza</div>
+    <div class="tape-item"><span class="tape-sep"></span>Design</div>
+    <div class="tape-item"><span class="tape-sep"></span>Tecnologia</div>
+    <div class="tape-item"><span class="tape-sep"></span>Entregas</div>
+    <div class="tape-item"><span class="tape-sep"></span>Ensino</div>
+    <div class="tape-item"><span class="tape-sep"></span>Construção</div>
+    <div class="tape-item"><span class="tape-sep"></span>Jardinagem</div>
+    <div class="tape-item"><span class="tape-sep"></span>Fotografia</div>
+    <div class="tape-item"><span class="tape-sep"></span>Electricidade</div>
+    <div class="tape-item"><span class="tape-sep"></span>Limpeza</div>
+    <div class="tape-item"><span class="tape-sep"></span>Design</div>
+    <div class="tape-item"><span class="tape-sep"></span>Tecnologia</div>
+    <div class="tape-item"><span class="tape-sep"></span>Entregas</div>
+    <div class="tape-item"><span class="tape-sep"></span>Ensino</div>
+    <div class="tape-item"><span class="tape-sep"></span>Construção</div>
+    <div class="tape-item"><span class="tape-sep"></span>Jardinagem</div>
+    <div class="tape-item"><span class="tape-sep"></span>Fotografia</div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="how-section">
+  <div class="how-label-col">
+    <div class="big-section-num">01</div>
+    <div class="section-marker">Como funciona</div>
+  </div>
+  <div class="how-content">
+    <div class="how-step">
+      <div class="step-n">01</div>
+      <div class="step-body">
+        <span class="step-tag">Cliente</span>
+        <h3 class="step-title">Publica a tua tarefa</h3>
+        <p class="step-text">Descreve o que precisas, define o orçamento e a urgência. Publicado em menos de 2 minutos.</p>
+      </div>
+    </div>
+    <div class="how-step">
+      <div class="step-n">02</div>
+      <div class="step-body">
+        <span class="step-tag">Plataforma</span>
+        <h3 class="step-title">Recebe propostas verificadas</h3>
+        <p class="step-text">Prestadores certificados na tua área candidatam-se com preço e prazo. Sem spam, sem pressão.</p>
+      </div>
+    </div>
+    <div class="how-step">
+      <div class="step-n">03</div>
+      <div class="step-body">
+        <span class="step-tag">Pagamento</span>
+        <h3 class="step-title">Paga e confirma quando está feito</h3>
+        <p class="step-text">O pagamento fica em escrow via Multicaixa Express. Só é libertado quando confirmas o trabalho.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<section class="cat-section">
+  <div class="sec-header">
+    <h2 class="sec-title-ed">Categorias</h2>
+    <span class="sec-hint">→ 12 categorias disponíveis</span>
+  </div>
+  <div class="cat-list">
+    <div class="cat-item">
+      <div class="cat-e"><i data-lucide="wrench"></i></div>
+      <div class="cat-n">Casa & Reparações</div>
+      <div class="cat-c">342 activas</div>
+    </div>
+    <div class="cat-item">
+      <div class="cat-e"><i data-lucide="monitor"></i></div>
+      <div class="cat-n">Tecnologia</div>
+      <div class="cat-c">218 activas</div>
+    </div>
+    <div class="cat-item">
+      <div class="cat-e"><i data-lucide="brush"></i></div>
+      <div class="cat-n">Limpeza</div>
+      <div class="cat-c">187 activas</div>
+    </div>
+    <div class="cat-item">
+      <div class="cat-e"><i data-lucide="palette"></i></div>
+      <div class="cat-n">Design</div>
+      <div class="cat-c">156 activas</div>
+    </div>
+    <div class="cat-item">
+      <div class="cat-e"><i data-lucide="package"></i></div>
+      <div class="cat-n">Entregas</div>
+      <div class="cat-c">203 activas</div>
+    </div>
+    <div class="cat-item">
+      <div class="cat-e"><i data-lucide="book-open"></i></div>
+      <div class="cat-n">Ensino</div>
+      <div class="cat-c">134 activas</div>
+    </div>
+    <div class="cat-item">
+      <div class="cat-e"><i data-lucide="leaf"></i></div>
+      <div class="cat-n">Jardinagem</div>
+      <div class="cat-c">89 activas</div>
+    </div>
+    <div class="cat-item">
+      <div class="cat-e"><i data-lucide="camera"></i></div>
+      <div class="cat-n">Fotografia</div>
+      <div class="cat-c">97 activas</div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST -->
+<section class="trust-strip">
+  <div class="trust-item">
+    <div class="ti-icon">
+      <i data-lucide="shield-check" class="lc-feat"></i>
+    </div>
+    <div class="ti-title">KYC Verificado</div>
+    <div class="ti-desc">Identidade de todos os prestadores confirmada com documento oficial antes de qualquer trabalho.</div>
+  </div>
+  <div class="trust-item">
+    <div class="ti-icon">
+      <i data-lucide="lock" class="lc-feat"></i>
+    </div>
+    <div class="ti-title">Pagamento Escrow</div>
+    <div class="ti-desc">O dinheiro só sai quando tu confirmas. Sem riscos, sem surpresas, sempre protegido.</div>
+  </div>
+  <div class="trust-item">
+    <div class="ti-icon">
+      <i data-lucide="graduation-cap" class="lc-feat"></i>
+    </div>
+    <div class="ti-title">Certificação Vídeo</div>
+    <div class="ti-desc">Os melhores prestadores passam por entrevista em vídeo para garantir qualidade.</div>
+  </div>
+  <div class="trust-item">
+    <div class="ti-icon">
+      <i data-lucide="star" class="lc-feat"></i>
+    </div>
+    <div class="ti-title">Avaliações Reais</div>
+    <div class="ti-desc">Sistema de reviews verificado após conclusão. Sem avaliações falsas ou pagas.</div>
+  </div>
+</section>
+
+<!-- USSD -->
+<section class="ussd-feature">
+  <div class="ussd-left">
+    <div class="ussd-eyebrow">Inclusão digital</div>
+    <h2 class="ussd-title">Sem internet,<br>sem problema.</h2>
+    <div class="ussd-code">*920*99#</div>
+    <p class="ussd-desc">Qualquer angolano, mesmo sem smartphone ou dados móveis, pode usar o Konekta pelo telemóvel mais simples. Unitel, Movicel e Africell.</p>
+  </div>
+  <div class="ussd-right">
+    <div class="phone-mockup">
+      <div class="pm-header">KONEKTA · *920*99# · MENU PRINCIPAL</div>
+      <div class="pm-menu-item active">1. Publicar tarefa</div>
+      <div class="pm-menu-item">2. As minhas tarefas</div>
+      <div class="pm-menu-item">3. Propostas recebidas</div>
+      <div class="pm-menu-item">4. A minha carteira</div>
+      <div class="pm-menu-item">5. A minha conta</div>
+      <div class="pm-menu-item" style="opacity:0.4">0. Sair</div>
+      <div style="margin-top:16px;border-top:1px solid rgba(232,160,32,0.15);padding-top:12px;font-size:10px;color:rgba(232,160,32,0.4)">
+        Responde com o número da opcao →
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="final-cta-ed">
+  <div class="cta-left">
+    <h2>Começa a<br><span>ganhar</span><br>hoje.</h2>
+    <p>Sem mensalidade. Comissão só em tarefas concluídas. O risco é zero.</p>
+  </div>
+  <div class="cta-right">
+    <button class="btn-rust">Criar conta grátis →</button>
+    <button class="btn-ink-out">Ver como funciona</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-logo">Konekta</div>
+  <div class="foot-links">
+    <a href="#">Como funciona</a>
+    <a href="#">Categorias</a>
+    <a href="#">Preços</a>
+    <a href="#">Contacto</a>
+    <a href="#">Privacidade</a>
+  </div>
+  <div class="foot-copy">
+    Luanda, Angola<br>
+    konekta.works<br>
+    © 2026
+  </div>
+</footer>
+
+<script>
+const cur = document.getElementById('cur');
+document.addEventListener('mousemove', e => {
+  cur.style.left = e.clientX + 'px';
+  cur.style.top  = e.clientY + 'px';
+});
+document.querySelectorAll('button,a,.cat-item,.hero-stat-block').forEach(el => {
+  el.addEventListener('mouseenter', () => cur.classList.add('big'));
+  el.addEventListener('mouseleave', () => cur.classList.remove('big'));
+});
+</script>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+  lucide.createIcons();
+</script>
+
+</body>
+</html>

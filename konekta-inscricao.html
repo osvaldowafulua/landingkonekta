@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Konekta — Brevemente em Luanda</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;700;800;900&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/css/intlTelInput.css">
+<style>
+:root {
+  --bg:     #ffffff;
+  --bg2:    #fafafa;
+  --ink:    #0d0d0d;
+  --ink2:   #1a1a1a;
+  --muted:  #6e6e73;
+  --border: rgba(0,0,0,0.07);
+  --border2:rgba(0,0,0,0.12);
+  --c1: #f97316; /* Orange */
+  --c2: #8b5cf6; /* Purple */
+  --c3: #06b6d4; /* Cyan */
+  --c4: #ec4899; /* Pink */
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Instrument Sans',sans-serif;
+  font-weight:400;
+  overflow-x:hidden;
+}
+
+/* ── AURORA BACKGROUND ── */
+.aurora-container {
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  overflow:hidden;
+  background:#fff;
+}
+.aurora-blob {
+  position:absolute;
+  border-radius:50%;
+  filter:blur(100px);
+  opacity:0.3;
+}
+.ab1 { width:600px;height:600px;background:radial-gradient(circle,var(--c1),transparent 70%); top:-100px;left:-100px; animation:float1 15s ease-in-out infinite; }
+.ab2 { width:500px;height:500px;background:radial-gradient(circle,var(--c2),transparent 70%); top:-50px;right:-100px; animation:float2 12s ease-in-out infinite; }
+.ab3 { width:550px;height:550px;background:radial-gradient(circle,var(--c3),transparent 70%); bottom:-150px;left:10%; animation:float1 18s ease-in-out infinite; }
+.ab4 { width:450px;height:450px;background:radial-gradient(circle,var(--c4),transparent 70%); bottom:-100px;right:5%; animation:float2 10s ease-in-out infinite; }
+
+@keyframes float1{0%,100%{transform:translate(0,0) rotate(0deg)}33%{transform:translate(100px,60px) rotate(10deg)}66%{transform:translate(-50px,40px) rotate(-5deg)}}
+@keyframes float2{0%,100%{transform:translate(0,0) rotate(0deg)}50%{transform:translate(-80px,80px) rotate(-15deg)}}
+
+/* ── NAV ── */
+nav {
+  padding:32px 48px;
+  display:flex;
+  justify-content:center;
+}
+.logo {
+  font-family:'Cabinet Grotesk',sans-serif;
+  font-weight:900;
+  font-size:24px;
+  letter-spacing:-0.04em;
+  color:var(--ink);
+  text-decoration:none;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.logo-k {
+  width:32px; height:32px;
+  background:var(--ink);
+  border-radius:10px;
+  display:flex; align-items:center; justify-content:center;
+  color:#fff;
+  font-size:16px;
+  font-weight:900;
+}
+
+/* ── MAIN CONTENT ── */
+main {
+  max-width:1200px;
+  margin:0 auto;
+  padding:40px 24px 100px;
+  text-align:center;
+  min-height:calc(100vh - 100px);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+
+.badge {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 16px;
+  background:rgba(255,255,255,0.7);
+  backdrop-filter:blur(10px);
+  border:1px solid rgba(0,0,0,0.05);
+  border-radius:30px;
+  font-size:12px;
+  font-weight:600;
+  color:var(--muted);
+  margin-bottom:32px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.03);
+}
+
+h1 {
+  font-family:'Cabinet Grotesk',sans-serif;
+  font-size:clamp(40px,8vw,80px);
+  font-weight:900;
+  letter-spacing:-0.05em;
+  line-height:1;
+  margin-bottom:24px;
+  color:var(--ink);
+}
+
+.slogan {
+  display:block;
+  background:linear-gradient(90deg, var(--c1), var(--c2), var(--c3));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+
+p.intro {
+  font-size:clamp(16px,2vw,20px);
+  color:var(--muted);
+  max-width:600px;
+  margin:0 auto 48px;
+  line-height:1.6;
+}
+
+/* ── FORM ── */
+.form-container {
+  width:100%;
+  max-width:850px;
+  background:rgba(255,255,255,0.6);
+  backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.8);
+  border-radius:32px;
+  padding:56px;
+  box-shadow:0 20px 60px rgba(0,0,0,0.05);
+  text-align:left;
+  position:relative;
+}
+
+.form-group {
+  margin-bottom:20px;
+}
+
+.form-group label {
+  display:block;
+  font-size:13px;
+  font-weight:600;
+  margin-bottom:8px;
+  color:var(--ink);
+  opacity:0.8;
+}
+
+.form-row {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 20px;
+}
+.form-row .form-group {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+/* ── MULTI-STEP ── */
+.progress-container {
+  width: 100%;
+  height: 4px;
+  background: var(--border);
+  margin-bottom: 32px;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.progress-bar {
+  height: 100%;
+  width: 33.33%;
+  background: var(--accent);
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.form-step {
+  display: none;
+  animation: fadeIn 0.4s ease-out;
+}
+.form-step.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.btn-ghost {
+  background: rgba(0,0,0,0.03);
+  color: var(--ink);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+.btn-ghost:hover {
+  background: rgba(0,0,0,0.07);
+}
+
+.input-wrapper {
+  position:relative;
+  display:flex;
+  align-items:center;
+}
+
+.input-wrapper i {
+  position:absolute;
+  left:16px;
+  color:var(--muted);
+  width:18px;
+  height:18px;
+  z-index: 10;
+}
+
+/* intl-tel-input overrides */
+.iti { width: 100%; }
+.iti__flag-container { padding-left: 10px; }
+.iti--allow-dropdown input { padding-left: 52px !important; }
+
+input, select {
+  width:100%;
+  height:52px;
+  background:rgba(255,255,255,0.9);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:0 16px 0 46px;
+  font-family:'Instrument Sans',sans-serif;
+  font-size:15px;
+  color:var(--ink);
+  outline:none;
+  transition:all 0.2s;
+}
+
+input:focus, select:focus {
+  border-color:var(--ink);
+  background:#fff;
+  box-shadow:0 0 0 4px rgba(0,0,0,0.03);
+}
+
+.btn-submit {
+  width:100%;
+  height:56px;
+  background:var(--ink);
+  color:#fff;
+  border:none;
+  border-radius:14px;
+  font-family:'Instrument Sans',sans-serif;
+  font-size:16px;
+  font-weight:600;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  transition:all 0.25s;
+  margin-top:12px;
+}
+
+.btn-submit:hover {
+  background:var(--ink2);
+  transform:translateY(-2px);
+  box-shadow:0 8px 25px rgba(0,0,0,0.15);
+}
+
+.btn-submit i {
+  width:18px;
+  height:18px;
+}
+
+/* ── SUCCESS STATE ── */
+#success-message {
+  display:none;
+  text-align:center;
+  padding:20px 0;
+}
+
+#success-message i {
+  width:48px;
+  height:48px;
+  color:#22c55e;
+  margin-bottom:16px;
+}
+
+#success-message h3 {
+  font-family:'Cabinet Grotesk',sans-serif;
+  font-size:24px;
+  font-weight:800;
+  margin-bottom:12px;
+}
+
+#success-message p {
+  color:var(--muted);
+  font-size:15px;
+}
+
+/* ── FOOTER ── */
+footer {
+  width:100%;
+  padding:48px;
+  border-top:1px solid var(--border);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:24px;
+}
+
+.social-links {
+  display:flex;
+  gap:20px;
+}
+
+.social-link {
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  border:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--ink);
+  text-decoration:none;
+  transition:all 0.2s;
+}
+
+.social-link:hover {
+  background:var(--ink);
+  color:#fff;
+  border-color:var(--ink);
+  transform:translateY(-3px);
+}
+
+.social-link i {
+  width:20px;
+  height:20px;
+}
+
+.copy {
+  font-size:13px;
+  color:var(--muted);
+}
+
+/* ── MOBILE OPTIMIZATION ── */
+@media (max-width:600px) {
+  nav { padding:24px; }
+  main { padding:20px 20px 60px; }
+  h1 { font-size:48px; }
+  .form-container { padding:30px 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="aurora-container">
+  <div class="aurora-blob ab1"></div>
+  <div class="aurora-blob ab2"></div>
+  <div class="aurora-blob ab3"></div>
+  <div class="aurora-blob ab4"></div>
+</div>
+
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-k">K</div>
+    Konekta
+  </a>
+</nav>
+
+<main>
+  <div class="badge">
+    <i data-lucide="clock" style="width:14px;height:14px"></i>
+    Lançamento em 09 de Abril, 2026
+  </div>
+
+  <h1>
+    Onde todos<br>
+    <span class="slogan">podem ganhar</span>
+  </h1>
+
+  <p class="intro">
+    A Konekta é o marketplace de serviços que está a mudar Luanda. 
+    Publica tarefas ou oferece o teu talento de forma segura e rápida.
+  </p>
+
+  <div class="form-container" id="main-form">
+    <!-- Progress Bar -->
+    <div class="progress-container">
+      <div class="progress-bar" id="progress-bar"></div>
+    </div>
+
+    <form id="pre-reg-form">
+      <!-- STEP 1: BÁSICO -->
+      <div class="form-step active" id="step-1">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Nome completo</label>
+            <div class="input-wrapper">
+              <i data-lucide="user"></i>
+              <input type="text" id="name" placeholder="Ex: Lucas Manuel" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="email">E-mail</label>
+            <div class="input-wrapper">
+              <i data-lucide="mail"></i>
+              <input type="email" id="email" placeholder="nome@exemplo.com" required>
+            </div>
+          </div>
+        </div>
+
+        <button type="button" class="btn-submit" onclick="nextStep(1)">
+          Continuar para o contacto
+          <i data-lucide="arrow-right"></i>
+        </button>
+      </div>
+
+      <!-- STEP 2: CONTACTO -->
+      <div class="form-step" id="step-2">
+        <div class="form-group" style="max-width: 400px; margin: 0 auto 32px;">
+          <label for="phone">Teu Telefone (Angola +244)</label>
+          <div class="input-wrapper">
+            <i data-lucide="phone"></i>
+            <input type="tel" id="phone" placeholder="9XX XXX XXX" required>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:12px; max-width: 500px; margin: 0 auto;">
+          <button type="button" class="btn-ghost" onclick="prevStep(2)" style="flex:1; height:56px; border-radius:14px">
+            Voltar
+          </button>
+          <button type="button" class="btn-submit" onclick="nextStep(2)" style="flex:2; margin-top:0">
+            Continuar para o perfil
+            <i data-lucide="arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 3: PERFIL E SOCIAIS -->
+      <div class="form-step" id="step-3">
+        <div class="form-group">
+          <label for="profile">O que queres fazer na Konekta?</label>
+          <div class="input-wrapper">
+            <i data-lucide="users"></i>
+            <select id="profile" required>
+              <option value="" disabled selected>Escolhe o teu perfil</option>
+              <option value="client">Contratar serviços (Cliente)</option>
+              <option value="provider">Oferecer serviços (Prestador)</option>
+              <option value="both">Ambos</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="linkedin">Linkedin (Opcional)</label>
+            <div class="input-wrapper">
+              <i data-lucide="linkedin"></i>
+              <input type="url" id="linkedin" placeholder="https://linkedin.com/perfil">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="facebook">Facebook (Opcional)</label>
+            <div class="input-wrapper">
+              <i data-lucide="facebook"></i>
+              <input type="url" id="facebook" placeholder="https://facebook.com/perfil">
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:12px">
+          <button type="button" class="btn-ghost" onclick="prevStep(3)" style="flex:1; height:56px; border-radius:14px">
+            Voltar
+          </button>
+          <button type="submit" class="btn-submit" style="flex:2; margin-top:0">
+            Finalizar Inscrição
+            <i data-lucide="check"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <div id="success-message">
+      <i data-lucide="check-circle"></i>
+      <h3>Inscrição Confirmada!</h3>
+      <p>Obrigado por te juntares à Konekta. Entraremos em contacto em breve com as novidades do lançamento.</p>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="social-links">
+    <a href="https://instagram.com/konekta" class="social-link" target="_blank">
+      <i data-lucide="instagram"></i>
+    </a>
+    <a href="https://facebook.com/konekta" class="social-link" target="_blank">
+      <i data-lucide="facebook"></i>
+    </a>
+  </div>
+  <p class="copy">Luanda, Angola · <a href="konekta-leads.html" style="color:inherit;text-decoration:none">konekta.works</a></p>
+  <p class="copy">© 2026 Konekta. Todos os direitos reservados.</p>
+</footer>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/intlTelInput.min.js"></script>
+<script>
+  // Initialize intl-tel-input
+  const phoneInput = document.querySelector("#phone");
+  const iti = window.intlTelInput(phoneInput, {
+    initialCountry: "ao",
+    preferredCountries: ["ao", "pt", "br"],
+    utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/utils.js",
+  });
+
+  // Initialize Lucide icons
+  lucide.createIcons();
+
+  // Multi-step Navigation
+  function updateProgress(step) {
+    const bar = document.getElementById('progress-bar');
+    const width = (step / 3) * 100;
+    bar.style.width = width + '%';
+  }
+
+  window.nextStep = function(current) {
+    // Validation
+    const currentStepDiv = document.getElementById(`step-${current}`);
+    const inputs = currentStepDiv.querySelectorAll('input[required], select[required]');
+    let valid = true;
+    
+    inputs.forEach(input => {
+      if (!input.checkValidity()) {
+        input.reportValidity();
+        valid = false;
+      }
+    });
+
+    if (current === 2 && !iti.isValidNumber()) {
+      alert("Por favor, insere um número de telefone válido para Angola.");
+      valid = false;
+    }
+
+    if (!valid) return;
+
+    // Transition
+    currentStepDiv.classList.remove('active');
+    document.getElementById(`step-${current + 1}`).classList.add('active');
+    updateProgress(current + 1);
+    lucide.createIcons();
+  };
+
+  window.prevStep = function(current) {
+    document.getElementById(`step-${current}`).classList.remove('active');
+    document.getElementById(`step-${current - 1}`).classList.add('active');
+    updateProgress(current - 1);
+    lucide.createIcons();
+  };
+
+  // Handle form submission
+  document.getElementById('pre-reg-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const form = this;
+    const submitBtn = form.querySelector('.btn-submit');
+    const originalBtnContent = submitBtn.innerHTML;
+    
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = 'A processar...';
+
+    // Prepare form data for Formspree
+    const formData = new FormData();
+    const fullPhoneNumber = iti.getNumber();
+    
+    formData.append('nome', document.getElementById('name').value);
+    formData.append('telefone', fullPhoneNumber);
+    formData.append('email', document.getElementById('email').value);
+    formData.append('perfil', document.getElementById('profile').value);
+    formData.append('linkedin', document.getElementById('linkedin').value);
+    formData.append('facebook', document.getElementById('facebook').value);
+
+    try {
+      // FORMSPREE INTEGRATION (Immediate "real email" receiver)
+      // Note: User needs to replace 'xoqgjojz' with their own Formspree ID
+      const response = await fetch('https://formspree.io/f/mbdznyoj', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        // SALVAR LOCALMENTE PARA O PAINEL DE LEADS
+        const newLead = {
+          nome: document.getElementById('name').value,
+          telefone: fullPhoneNumber,
+          email: document.getElementById('email').value,
+          perfil: document.getElementById('profile').value,
+          linkedin: document.getElementById('linkedin').value,
+          facebook: document.getElementById('facebook').value,
+          data: new Date().toISOString()
+        };
+        const leads = JSON.parse(localStorage.getItem('konekta_leads') || '[]');
+        leads.push(newLead);
+        localStorage.setItem('konekta_leads', JSON.stringify(leads));
+
+        form.style.display = 'none';
+        document.getElementById('success-message').style.display = 'block';
+        lucide.createIcons();
+      } else {
+        throw new Error('Erro na submissão');
+      }
+    } catch (error) {
+      alert('Houve um erro. Por favor tenta de novo ou contacta o suporte.');
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalBtnContent;
+    }
+  });
+</script>
+
+</body>
+</html>

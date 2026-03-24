@@ -1,0 +1,7 @@
+version: '3'
+services:
+  konekta-landing:
+    build: .
+    ports:
+      - "80:80"
+    restart: always

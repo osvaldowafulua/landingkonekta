@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Konekta — Modelo 4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,600;12..96,700;12..96,800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#050508;
+  --void2:#0c0c14;
+  --void3:#141420;
+  --glass:rgba(255,255,255,0.04);
+  --glass2:rgba(255,255,255,0.07);
+  --ring:rgba(255,255,255,0.09);
+  --text:#eeeef2;
+  --sub:#7e7e9a;
+  --dim:#3a3a52;
+  --blue:#4f7ef8;
+  --blue2:#7aa2fc;
+  --cyan:#22d3ee;
+  --violet:#a78bfa;
+  --green:#34d399;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--void);
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  font-weight:300;
+  overflow-x:hidden;
+}
+
+/* CANVAS BACKGROUND */
+#canvas-bg{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;
+  z-index:200;
+  height:60px;
+  display:flex;align-items:center;
+  padding:0 40px;
+  gap:40px;
+}
+nav::before{
+  content:'';
+  position:absolute;inset:0;
+  background:rgba(5,5,8,0.7);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--ring);
+  z-index:-1;
+}
+.n-logo{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:17px;font-weight:800;
+  letter-spacing:-0.04em;
+  color:var(--text);
+  text-decoration:none;
+  display:flex;align-items:center;gap:8px;
+}
+.n-gem{
+  width:26px;height:26px;
+  background:conic-gradient(from 0deg, var(--blue),var(--violet),var(--cyan),var(--blue));
+  border-radius:6px;
+  animation:spin-slow 6s linear infinite;
+}
+@keyframes spin-slow{to{filter:hue-rotate(360deg)}}
+.n-links{display:flex;gap:28px;flex:1;justify-content:center}
+.n-links a{color:var(--sub);font-size:13px;text-decoration:none;font-weight:400;transition:color .2s}
+.n-links a:hover{color:var(--text)}
+.n-r{display:flex;gap:8px;margin-left:auto}
+.n-btn{
+  height:34px;padding:0 16px;border-radius:17px;
+  font-size:12px;font-weight:500;cursor:pointer;
+  font-family:'Inter',sans-serif;letter-spacing:.01em;
+  transition:all .2s;
+}
+.n-ghost{background:transparent;border:1px solid var(--ring);color:var(--sub)}
+.n-ghost:hover{border-color:rgba(255,255,255,0.2);color:var(--text)}
+.n-solid{
+  background:linear-gradient(135deg,var(--blue),var(--violet));
+  border:none;color:#fff;
+  box-shadow:0 0 24px rgba(79,126,248,0.35);
+}
+.n-solid:hover{transform:translateY(-1px);box-shadow:0 0 36px rgba(79,126,248,0.5)}
+
+/* HERO */
+.hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;
+  padding:100px 40px 80px;
+  position:relative;z-index:1;
+}
+
+.h-eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:7px 16px;
+  border:1px solid var(--ring);
+  border-radius:24px;
+  font-size:11px;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--sub);
+  margin-bottom:36px;
+  animation:fade-up .6s ease both;
+}
+.h-pulse{
+  width:7px;height:7px;background:var(--green);
+  border-radius:50%;
+  box-shadow:0 0 8px var(--green);
+  animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.6)}}
+
+h1.h-title{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:clamp(56px,8vw,110px);
+  font-weight:800;
+  line-height:.95;
+  letter-spacing:-.04em;
+  margin-bottom:28px;
+  animation:fade-up .6s .1s ease both;
+}
+.h-t1{display:block;color:var(--text)}
+.h-t2{
+  display:block;
+  background:linear-gradient(135deg,var(--blue) 0%,var(--violet) 50%,var(--cyan) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  background-size:200% 200%;
+  animation:gradient-shift 4s ease infinite;
+}
+@keyframes gradient-shift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+
+.h-sub{
+  font-size:17px;color:var(--sub);
+  max-width:500px;line-height:1.7;
+  margin:0 auto 44px;
+  animation:fade-up .6s .2s ease both;
+}
+
+.h-actions{
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  animation:fade-up .6s .3s ease both;
+}
+
+.btn-lg{
+  height:52px;padding:0 28px;border-radius:26px;
+  font-size:14px;font-weight:500;cursor:pointer;
+  font-family:'Inter',sans-serif;
+  display:flex;align-items:center;gap:8px;
+  transition:all .25s;
+}
+.btn-grad{
+  background:linear-gradient(135deg,var(--blue),var(--violet));
+  border:none;color:#fff;
+  box-shadow:0 4px 32px rgba(79,126,248,0.4);
+}
+.btn-grad:hover{transform:translateY(-2px);box-shadow:0 8px 48px rgba(79,126,248,0.55)}
+.btn-glass{
+  background:var(--glass);
+  border:1px solid var(--ring);
+  color:var(--text);
+}
+.btn-glass:hover{background:var(--glass2);border-color:rgba(255,255,255,0.15)}
+
+/* GLOW RING */
+.hero-glow{
+  position:absolute;
+  width:600px;height:600px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(79,126,248,0.12) 0%,transparent 70%);
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  pointer-events:none;
+  animation:breathe 4s ease-in-out infinite;
+}
+@keyframes breathe{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.15)}}
+
+/* STATS BAND */
+.stats-band{
+  display:flex;align-items:center;justify-content:center;
+  gap:0;
+  border-top:1px solid var(--ring);
+  border-bottom:1px solid var(--ring);
+  margin-top:80px;
+  animation:fade-up .6s .4s ease both;
+  position:relative;z-index:1;
+}
+.s-item{
+  flex:1;padding:28px 0;text-align:center;
+  border-right:1px solid var(--ring);
+  transition:background .2s;
+}
+.s-item:last-child{border-right:none}
+.s-item:hover{background:var(--glass)}
+.s-n{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:34px;font-weight:800;letter-spacing:-.04em;
+  background:linear-gradient(135deg,var(--text),rgba(238,238,242,.5));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:4px;
+}
+.s-l{font-size:12px;color:var(--sub);letter-spacing:.03em}
+
+/* BENTO GRID */
+.bento{
+  padding:80px 40px;
+  max-width:1200px;margin:0 auto;
+  position:relative;z-index:1;
+}
+
+.sec-label{
+  font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--blue2);font-weight:500;margin-bottom:14px;
+}
+.sec-h2{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:clamp(32px,4vw,52px);font-weight:800;
+  letter-spacing:-.04em;line-height:1.05;
+  margin-bottom:48px;
+}
+
+.bento-grid{
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  grid-template-rows:repeat(3,auto);
+  gap:12px;
+}
+
+.b-card{
+  background:var(--void2);
+  border:1px solid var(--ring);
+  border-radius:20px;
+  padding:28px 26px;
+  overflow:hidden;
+  position:relative;
+  transition:border-color .3s,transform .3s;
+}
+.b-card:hover{border-color:rgba(255,255,255,0.14);transform:translateY(-3px)}
+.b-card::after{
+  content:'';position:absolute;
+  inset:0;border-radius:inherit;
+  opacity:0;transition:opacity .3s;
+  pointer-events:none;
+}
+.b-card:hover::after{opacity:1}
+
+/* Bento positions */
+.bc1{grid-column:span 4;grid-row:span 1}
+.bc2{grid-column:span 2;grid-row:span 1}
+.bc3{grid-column:span 2;grid-row:span 2}
+.bc4{grid-column:span 2;grid-row:span 1}
+.bc5{grid-column:span 2;grid-row:span 1}
+.bc6{grid-column:span 3;grid-row:span 1}
+.bc7{grid-column:span 3;grid-row:span 1}
+
+.bc1::after{background:radial-gradient(ellipse at 20% 50%,rgba(79,126,248,.06),transparent 60%)}
+.bc2::after{background:radial-gradient(ellipse at 80% 20%,rgba(167,139,250,.08),transparent 60%)}
+.bc3::after{background:radial-gradient(ellipse at 50% 80%,rgba(34,211,238,.06),transparent 60%)}
+
+.b-icon{
+  width:40px;height:40px;border-radius:12px;
+  background:var(--void3);
+  border:1px solid var(--ring);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;margin-bottom:16px;
+}
+.b-t{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:17px;font-weight:700;letter-spacing:-.03em;
+  margin-bottom:8px;
+}
+.b-d{font-size:13px;color:var(--sub);line-height:1.65}
+
+/* BIG card inner */
+.bc1-inner{display:flex;align-items:center;gap:40px}
+.bc1-left{flex:1}
+.bc1-right{
+  display:flex;flex-direction:column;gap:8px;
+  min-width:200px;
+}
+.mini-task{
+  background:var(--void3);
+  border:1px solid var(--ring);
+  border-radius:12px;padding:12px 14px;
+  display:flex;align-items:center;gap:10px;
+  animation:float-mini var(--d,4s) ease-in-out infinite;
+}
+@keyframes float-mini{0%,100%{transform:translateY(0)}50%{transform:translateY(var(--y,-6px))}}
+.mt-avatar{
+  width:28px;height:28px;border-radius:50%;
+  background:conic-gradient(from 0deg,var(--blue),var(--violet));
+  display:flex;align-items:center;justify-content:center;
+  font-size:9px;font-weight:700;color:#fff;flex-shrink:0;
+}
+.mt-name{font-size:12px;font-weight:500;color:var(--text)}
+.mt-sub{font-size:10px;color:var(--sub)}
+.mt-badge{
+  margin-left:auto;font-size:9px;font-weight:600;
+  padding:2px 8px;border-radius:20px;
+}
+.badge-b{background:rgba(79,126,248,.15);color:var(--blue2)}
+.badge-g{background:rgba(52,211,153,.12);color:var(--green)}
+.badge-v{background:rgba(167,139,250,.15);color:var(--violet)}
+
+/* Big stat */
+.b-big-n{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:56px;font-weight:800;letter-spacing:-.05em;
+  background:linear-gradient(135deg,var(--text),var(--sub));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  line-height:1;margin-bottom:6px;
+}
+
+/* USSD CARD */
+.ussd-term{
+  background:#000;
+  border-radius:12px;
+  padding:16px 18px;
+  font-family:'Courier New',monospace;
+  font-size:12px;
+  color:#00ff88;
+  line-height:1.9;
+  margin-top:14px;
+  border:1px solid rgba(0,255,136,.15);
+}
+.term-dim{color:rgba(0,255,136,.4)}
+.term-cursor{
+  display:inline-block;width:8px;height:14px;
+  background:#00ff88;margin-left:2px;
+  animation:blink .8s step-end infinite;
+  vertical-align:middle;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* CATEGORIES */
+.cats-section{
+  padding:0 40px 80px;
+  max-width:1200px;margin:0 auto;
+  position:relative;z-index:1;
+}
+.cat-scroll{
+  display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;
+  scrollbar-width:none;
+}
+.cat-scroll::-webkit-scrollbar{display:none}
+.cat-pill{
+  white-space:nowrap;
+  padding:10px 20px;
+  background:var(--void2);
+  border:1px solid var(--ring);
+  border-radius:24px;
+  font-size:13px;color:var(--sub);
+  cursor:pointer;
+  display:flex;align-items:center;gap:8px;
+  transition:all .2s;flex-shrink:0;
+}
+.cat-pill:hover{background:var(--glass2);border-color:rgba(255,255,255,.15);color:var(--text)}
+.cat-pill.active{
+  background:linear-gradient(135deg,rgba(79,126,248,.15),rgba(167,139,250,.1));
+  border-color:rgba(79,126,248,.4);color:var(--blue2);
+}
+
+/* TRUST */
+.trust-row{
+  padding:60px 40px;
+  border-top:1px solid var(--ring);
+  border-bottom:1px solid var(--ring);
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:0;
+  position:relative;z-index:1;
+}
+.tr-item{
+  padding:32px 36px;
+  border-right:1px solid var(--ring);
+  display:flex;flex-direction:column;gap:10px;
+  transition:background .2s;
+}
+.tr-item:last-child{border-right:none}
+.tr-item:hover{background:var(--glass)}
+.tr-icon{
+  width:38px;height:38px;border-radius:10px;
+  background:var(--void3);border:1px solid var(--ring);
+  display:flex;align-items:center;justify-content:center;font-size:16px;
+}
+.tr-t{font-size:14px;font-weight:500;color:var(--text)}
+.tr-d{font-size:12px;color:var(--sub);line-height:1.6}
+
+/* CTA */
+.cta-wrap{
+  padding:80px 40px;
+  position:relative;z-index:1;
+}
+.cta-inner{
+  max-width:780px;margin:0 auto;
+  padding:80px;
+  border:1px solid var(--ring);
+  border-radius:28px;
+  text-align:center;
+  position:relative;overflow:hidden;
+}
+.cta-inner::before{
+  content:'';position:absolute;
+  top:-100px;left:50%;transform:translateX(-50%);
+  width:400px;height:300px;
+  background:radial-gradient(ellipse,rgba(79,126,248,.15),transparent 70%);
+  pointer-events:none;
+}
+.cta-h{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-size:clamp(36px,5vw,60px);font-weight:800;
+  letter-spacing:-.04em;line-height:1.1;
+  margin-bottom:16px;position:relative;
+}
+.cta-p{font-size:16px;color:var(--sub);margin-bottom:36px;line-height:1.6;position:relative}
+.cta-btns{display:flex;align-items:center;justify-content:center;gap:12px;position:relative}
+
+footer{
+  padding:40px;border-top:1px solid var(--ring);
+  display:flex;align-items:center;justify-content:space-between;
+  position:relative;z-index:1;
+}
+.f-logo{
+  font-family:'Bricolage Grotesque',sans-serif;
+  font-weight:800;font-size:15px;letter-spacing:-.03em;color:var(--sub);
+}
+.f-copy{font-size:12px;color:var(--dim)}
+.lc-inline{width:16px;height:16px;vertical-align:text-bottom;margin-right:4px}
+.lc-feat{width:18px;height:18px;color:var(--blue2)}
+
+@keyframes fade-up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+
+<canvas id="canvas-bg"></canvas>
+
+<nav>
+  <a href="#" class="n-logo">
+    <div class="n-gem"></div>
+    Konekta
+  </a>
+  <div class="n-links">
+    <a href="#">Plataforma</a>
+    <a href="#">Categorias</a>
+    <a href="#">Preços</a>
+    <a href="#">Empresas</a>
+  </div>
+  <div class="n-r">
+    <button class="n-btn n-ghost">Entrar</button>
+    <button class="n-btn n-solid">Começar grátis</button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-glow"></div>
+
+  <div class="h-eyebrow">
+    <span class="h-pulse"></span>
+    Luanda, Angola · Lançamento Abril 2026
+  </div>
+
+  <h1 class="h-title">
+    <span class="h-t1">O mercado</span>
+    <span class="h-t2">de serviços</span>
+  </h1>
+
+  <p class="h-sub">
+    Liga quem precisa de ajuda a quem quer ganhar.
+    Verificado, seguro e acessível a todos.
+  </p>
+
+  <div class="h-actions">
+    <button class="btn-lg btn-grad">
+      Publicar tarefa
+      <i data-lucide="arrow-right" style="width:16px;height:16px"></i>
+    </button>
+    <button class="btn-lg btn-glass">Ver prestadores</button>
+  </div>
+</section>
+
+<div class="stats-band">
+  <div class="s-item"><div class="s-n">1.200+</div><div class="s-l">Prestadores</div></div>
+  <div class="s-item"><div class="s-n">8.500+</div><div class="s-l">Tarefas concluídas</div></div>
+  <div class="s-item"><div class="s-n">4.8 <i data-lucide="star" class="lc-inline" style="color:var(--violet)"></i></div><div class="s-l">Avaliação média</div></div>
+  <div class="s-item"><div class="s-n">500 Kz</div><div class="s-l">Taxa por tarefa</div></div>
+  <div class="s-item"><div class="s-n">15%</div><div class="s-l">Comissão prestador</div></div>
+</div>
+
+<!-- BENTO -->
+<section class="bento">
+  <div class="sec-label">Funcionalidades</div>
+  <h2 class="sec-h2">Pensado para Angola</h2>
+
+  <div class="bento-grid">
+
+    <!-- Grande: Live feed -->
+    <div class="b-card bc1">
+      <div class="bc1-inner">
+        <div class="bc1-left">
+          <div class="b-icon">
+            <i data-lucide="zap" class="lc-feat"></i>
+          </div>
+          <h3 class="b-t">Match em tempo real</h3>
+          <p class="b-d">O sistema liga automaticamente a tua tarefa ao prestador mais adequado na tua zona de Luanda.</p>
+        </div>
+        <div class="bc1-right">
+          <div class="mini-task" style="--d:3.5s;--y:-8px">
+            <div class="mt-avatar">RC</div>
+            <div><div class="mt-name">Rui Campos</div><div class="mt-sub">Electricista · 4.9★</div></div>
+            <span class="mt-badge badge-g">Online</span>
+          </div>
+          <div class="mini-task" style="--d:4.5s;--y:-6px">
+            <div class="mt-avatar" style="background:conic-gradient(from 90deg,var(--violet),var(--cyan))">AT</div>
+            <div><div class="mt-name">Ana Torres</div><div class="mt-sub">Limpeza · 4.8★</div></div>
+            <span class="mt-badge badge-v">Match</span>
+          </div>
+          <div class="mini-task" style="--d:5s;--y:-7px">
+            <div class="mt-avatar" style="background:conic-gradient(from 180deg,var(--cyan),var(--blue))">FM</div>
+            <div><div class="mt-name">Fábio Mateus</div><div class="mt-sub">Design · 4.7★</div></div>
+            <span class="mt-badge badge-b">Proposta</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Escrow stat -->
+    <div class="b-card bc2">
+      <div class="b-icon">
+        <i data-lucide="lock" class="lc-feat"></i>
+      </div>
+      <h3 class="b-t">Escrow seguro</h3>
+      <p class="b-d">Pagamento via Multicaixa Express. Libertado só quando confirmas o trabalho.</p>
+      <div class="b-big-n" style="margin-top:20px">100%</div>
+    </div>
+
+    <!-- USSD -->
+    <div class="b-card bc3">
+      <div class="b-icon">
+        <i data-lucide="smartphone" class="lc-feat"></i>
+      </div>
+      <h3 class="b-t">Funciona sem internet</h3>
+      <p class="b-d">Canal USSD disponível em Unitel, Movicel e Africell.</p>
+      <div class="ussd-term">
+        <span class="term-dim">KONEKTA</span> *920*99#<br>
+        1. Publicar tarefa<br>
+        2. As minhas tarefas<br>
+        3. Propostas recebidas<br>
+        4. Carteira / Ganhos<br>
+        <span class="term-dim">Resp: </span><span class="term-cursor"></span>
+      </div>
+    </div>
+
+    <!-- KYC -->
+    <div class="b-card bc4">
+      <div class="b-icon">
+        <i data-lucide="shield-check" class="lc-feat"></i>
+      </div>
+      <h3 class="b-t">KYC verificado</h3>
+      <p class="b-d">Identidade confirmada para todos os prestadores antes do primeiro trabalho.</p>
+    </div>
+
+    <!-- Cert -->
+    <div class="b-card bc5">
+      <div class="b-icon">
+        <i data-lucide="graduation-cap" class="lc-feat"></i>
+      </div>
+      <h3 class="b-t">Certificação</h3>
+      <p class="b-d">Os melhores passam por entrevista em vídeo. Badge visível no perfil.</p>
+    </div>
+
+    <!-- Avaliações -->
+    <div class="b-card bc6">
+      <div class="b-icon">
+        <i data-lucide="star" class="lc-feat"></i>
+      </div>
+      <h3 class="b-t">Avaliações verificadas</h3>
+      <p class="b-d">Só quem concluiu a tarefa pode avaliar. Sem reviews falsos ou pagos. Sistema anti-manipulação incluído.</p>
+    </div>
+
+    <!-- RBAC -->
+    <div class="b-card bc7">
+      <div class="b-icon">
+        <i data-lucide="user-round-check" class="lc-feat"></i>
+      </div>
+      <h3 class="b-t">Cliente ou prestador</h3>
+      <p class="b-d">Podes usar as duas funções na mesma conta. Muda de papel quando quiseres — cliente hoje, prestador amanhã.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<section class="cats-section">
+  <div class="sec-label">Categorias disponíveis</div>
+  <div class="cat-scroll" style="margin-top:20px">
+    <div class="cat-pill active"><i data-lucide="wrench" class="lc-inline"></i> Casa & Reparações</div>
+    <div class="cat-pill"><i data-lucide="monitor" class="lc-inline"></i> Tecnologia</div>
+    <div class="cat-pill"><i data-lucide="brush" class="lc-inline"></i> Limpeza</div>
+    <div class="cat-pill"><i data-lucide="palette" class="lc-inline"></i> Design</div>
+    <div class="cat-pill"><i data-lucide="package" class="lc-inline"></i> Entregas</div>
+    <div class="cat-pill"><i data-lucide="book-open" class="lc-inline"></i> Ensino</div>
+    <div class="cat-pill"><i data-lucide="leaf" class="lc-inline"></i> Jardinagem</div>
+    <div class="cat-pill"><i data-lucide="camera" class="lc-inline"></i> Fotografia</div>
+    <div class="cat-pill"><i data-lucide="zap" class="lc-inline"></i> Electricidade</div>
+    <div class="cat-pill"><i data-lucide="truck" class="lc-inline"></i> Transportes</div>
+    <div class="cat-pill"><i data-lucide="utility-pole" class="lc-inline"></i> Culinária</div>
+    <div class="cat-pill"><i data-lucide="settings" class="lc-inline"></i> Mecânica</div>
+  </div>
+</section>
+
+<!-- TRUST -->
+<div class="trust-row">
+  <div class="tr-item">
+    <div class="tr-icon">
+      <i data-lucide="shield-check" class="lc-feat"></i>
+    </div>
+    <div class="tr-t">Identidade verificada</div>
+    <div class="tr-d">Todos os prestadores verificam com BI ou passaporte antes de começar.</div>
+  </div>
+  <div class="tr-item">
+    <div class="tr-icon">
+      <i data-lucide="lock" class="lc-feat"></i>
+    </div>
+    <div class="tr-t">Pagamento em escrow</div>
+    <div class="tr-d">O dinheiro é retido até confirmares que o trabalho está feito.</div>
+  </div>
+  <div class="tr-item">
+    <div class="tr-icon">
+      <i data-lucide="message-square" class="lc-feat"></i>
+    </div>
+    <div class="tr-t">Chat protegido</div>
+    <div class="tr-d">Sem contactos externos. Comunicação segura dentro da plataforma.</div>
+  </div>
+  <div class="tr-item">
+    <div class="tr-icon">
+      <i data-lucide="smartphone" class="lc-feat"></i>
+    </div>
+    <div class="tr-t">Inclusão total</div>
+    <div class="tr-d">Funciona em qualquer telemóvel via USSD *920*99#, mesmo sem dados.</div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-wrap">
+  <div class="cta-inner">
+    <h2 class="cta-h">Pronto para<br>a primeira tarefa?</h2>
+    <p class="cta-p">Grátis para começar. Comissão só quando ganhas.</p>
+    <div class="cta-btns">
+      <button class="btn-lg btn-grad">Criar conta grátis</button>
+      <button class="btn-lg btn-glass">Saber mais →</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="f-logo">Konekta</div>
+  <div class="f-copy">konekta.works · Luanda, Angola</div>
+  <div class="f-copy">© 2026</div>
+</footer>
+
+<script>
+// Canvas particle field
+const canvas = document.getElementById('canvas-bg');
+const ctx = canvas.getContext('2d');
+let W, H, particles = [];
+
+function resize(){ W=canvas.width=window.innerWidth; H=canvas.height=window.innerHeight; }
+resize(); window.addEventListener('resize', resize);
+
+for(let i=0; i<80; i++){
+  particles.push({
+    x: Math.random()*W, y: Math.random()*H,
+    vx: (Math.random()-.5)*.3, vy: (Math.random()-.5)*.3,
+    r: Math.random()*1.2+.3,
+    a: Math.random()*.4+.05,
+    c: ['#4f7ef8','#a78bfa','#22d3ee'][Math.floor(Math.random()*3)]
+  });
+}
+
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  particles.forEach(p=>{
+    p.x+=p.vx; p.y+=p.vy;
+    if(p.x<0)p.x=W; if(p.x>W)p.x=0;
+    if(p.y<0)p.y=H; if(p.y>H)p.y=0;
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle=p.c;
+    ctx.globalAlpha=p.a;
+    ctx.fill();
+  });
+  // connections
+  ctx.globalAlpha=1;
+  particles.forEach((a,i)=>{
+    particles.slice(i+1).forEach(b=>{
+      const d=Math.hypot(a.x-b.x,a.y-b.y);
+      if(d<120){
+        ctx.beginPath();
+        ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y);
+        ctx.strokeStyle='rgba(79,126,248,'+(0.06*(1-d/120))+')';
+        ctx.lineWidth=.5;
+        ctx.stroke();
+      }
+    });
+  });
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+  lucide.createIcons();
+</script>
+
+</body>
+</html>

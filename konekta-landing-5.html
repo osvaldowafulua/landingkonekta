@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Konekta — Modelo 5</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sand:  #faf7f2;
+  --sand2: #f3ede3;
+  --sand3: #e8dfce;
+  --ink:   #1a1208;
+  --ink2:  #2d2318;
+  --brown: #6b4c2a;
+  --olive: #5a6e3a;
+  --terra: #c45c2a;
+  --cream: #f0e8d6;
+  --gold:  #d4a030;
+  --muted: #8c7860;
+  --border:#d6cbbf;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--sand);
+  color:var(--ink);
+  font-family:'Instrument Sans',sans-serif;
+  overflow-x:hidden;
+}
+
+/* TEXTURE overlay */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:1000;
+}
+
+/* NAV */
+nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(250,247,242,0.92);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  padding:0 60px;height:68px;
+  display:flex;align-items:center;gap:40px;
+}
+.logo-fr{
+  font-family:'Fraunces',serif;
+  font-size:22px;font-weight:900;
+  letter-spacing:-.04em;color:var(--ink);
+  text-decoration:none;
+  display:flex;align-items:center;gap:10px;
+}
+.logo-leaf{
+  width:30px;height:30px;
+  background:var(--olive);
+  border-radius:50% 0 50% 0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;
+  transform:rotate(-15deg);
+}
+.n-links{display:flex;gap:28px;flex:1;justify-content:center}
+.n-links a{
+  color:var(--muted);font-size:14px;font-weight:500;
+  text-decoration:none;transition:color .2s;
+}
+.n-links a:hover{color:var(--ink)}
+.n-ctas{display:flex;gap:10px;margin-left:auto;align-items:center}
+.btn-line{
+  height:38px;padding:0 20px;
+  background:transparent;border:1.5px solid var(--brown);
+  border-radius:19px;color:var(--brown);
+  font-size:13px;font-weight:600;cursor:pointer;
+  font-family:'Instrument Sans',sans-serif;
+  transition:all .2s;
+}
+.btn-line:hover{background:var(--brown);color:#fff}
+.btn-filled{
+  height:38px;padding:0 22px;
+  background:var(--terra);border:none;
+  border-radius:19px;color:#fff;
+  font-size:13px;font-weight:600;cursor:pointer;
+  font-family:'Instrument Sans',sans-serif;
+  transition:all .2s;
+}
+.btn-filled:hover{background:#a84820;transform:translateY(-1px)}
+
+/* HERO */
+.hero{
+  padding:80px 60px 0;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:60px;
+  min-height:calc(100vh - 68px);
+  align-items:center;
+  max-width:1300px;margin:0 auto;
+  overflow:hidden;
+}
+
+.hero-left{display:flex;flex-direction:column;justify-content:center}
+
+.h-kicker{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:12px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;
+  color:var(--olive);
+  margin-bottom:28px;
+}
+.kick-line{width:28px;height:2px;background:var(--olive)}
+
+h1.h1-serif{
+  font-family:'Fraunces',serif;
+  font-size:clamp(52px,6vw,82px);
+  font-weight:900;
+  line-height:1.0;
+  letter-spacing:-.03em;
+  margin-bottom:28px;
+  color:var(--ink);
+}
+.h1-em{
+  font-style:italic;font-weight:700;
+  color:var(--terra);
+}
+
+.h-desc{
+  font-size:17px;color:var(--muted);
+  max-width:460px;line-height:1.75;
+  margin-bottom:40px;
+}
+
+.hero-actions{display:flex;gap:12px;align-items:center;margin-bottom:48px}
+
+.btn-big-fill{
+  height:54px;padding:0 32px;
+  background:var(--ink);
+  border:none;border-radius:27px;
+  color:var(--sand);
+  font-size:15px;font-weight:600;
+  cursor:pointer;
+  font-family:'Instrument Sans',sans-serif;
+  display:flex;align-items:center;gap:10px;
+  transition:all .25s;
+}
+.btn-big-fill:hover{background:var(--ink2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(26,18,8,.25)}
+
+.btn-big-out{
+  height:54px;padding:0 28px;
+  background:transparent;
+  border:1.5px solid var(--brown);
+  border-radius:27px;color:var(--brown);
+  font-size:14px;font-weight:600;cursor:pointer;
+  font-family:'Instrument Sans',sans-serif;
+  transition:all .2s;
+}
+.btn-big-out:hover{background:var(--cream)}
+
+.trust-row{
+  display:flex;align-items:center;gap:20px;
+}
+.trust-avatars{display:flex}
+.t-av{
+  width:36px;height:36px;border-radius:50%;
+  border:2.5px solid var(--sand);
+  margin-left:-10px;first-child{margin:0};
+  font-size:11px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;
+}
+.t-av:first-child{margin-left:0}
+.trust-text{font-size:13px;color:var(--muted);line-height:1.4}
+.trust-text strong{color:var(--ink);font-weight:600}
+
+/* HERO RIGHT — visual */
+.hero-right{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  padding-bottom:40px;
+}
+
+.task-card{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:20px 22px;
+  box-shadow:0 2px 16px rgba(26,18,8,.06);
+  transition:transform .3s;
+}
+.task-card:hover{transform:translateY(-3px)}
+
+.tc-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px}
+.tc-emoji{
+  width:42px;height:42px;background:var(--sand2);
+  border-radius:12px;display:flex;align-items:center;justify-content:center;
+  font-size:20px;flex-shrink:0;border:1px solid var(--border);
+}
+.tc-title{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:3px}
+.tc-meta{font-size:12px;color:var(--muted)}
+.tc-price{
+  font-family:'Fraunces',serif;
+  font-size:22px;font-weight:700;
+  color:var(--ink);margin-left:auto;
+  white-space:nowrap;
+}
+
+.tc-foot{
+  display:flex;align-items:center;gap:8px;
+  padding-top:12px;
+  border-top:1px solid var(--sand3);
+}
+.tc-badge{
+  font-size:10px;font-weight:600;
+  padding:3px 10px;border-radius:20px;
+}
+.b-olive{background:rgba(90,110,58,.1);color:var(--olive)}
+.b-terra{background:rgba(196,92,42,.1);color:var(--terra)}
+.b-gold {background:rgba(212,160,48,.1);color:var(--gold)}
+
+.tc-provider{
+  margin-left:auto;display:flex;align-items:center;gap:7px;
+  font-size:12px;color:var(--muted);
+}
+.p-av{
+  width:22px;height:22px;border-radius:50%;
+  background:var(--brown);
+  display:flex;align-items:center;justify-content:center;
+  font-size:8px;font-weight:700;color:#fff;
+}
+
+/* Floating elements */
+.float-stat{
+  position:absolute;
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:12px 16px;
+  box-shadow:0 4px 20px rgba(26,18,8,.1);
+  animation:floaty var(--d,4s) ease-in-out infinite;
+}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(var(--dy,-10px))}}
+
+.fs1{top:0;right:-30px;--d:3.5s;--dy:-12px}
+.fs2{bottom:80px;right:-20px;--d:5s;--dy:-8px}
+
+.fs-n{font-family:'Fraunces',serif;font-size:24px;font-weight:700;color:var(--ink);letter-spacing:-.03em}
+.fs-l{font-size:10px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+
+/* ABOUT SECTION */
+.about{
+  background:var(--ink);
+  color:var(--sand);
+  padding:100px 60px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:80px;
+  align-items:center;
+}
+
+.about-left{display:flex;flex-direction:column;gap:24px}
+.a-eyebrow{
+  font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--gold);font-weight:600;margin-bottom:18px;
+}
+.a-h2{
+  font-family:'Fraunces',serif;
+  font-size:clamp(36px,5vw,60px);font-weight:900;
+  letter-spacing:-.03em;line-height:1.05;
+  margin-bottom:24px;
+  color:var(--sand);
+}
+.a-h2 em{font-style:italic;color:var(--gold)}
+.a-p{font-size:16px;color:rgba(240,232,214,.6);line-height:1.75;margin-bottom:28px}
+.a-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  height:46px;padding:0 24px;
+  background:var(--terra);border:none;border-radius:23px;
+  color:#fff;font-size:14px;font-weight:600;cursor:pointer;
+  font-family:'Instrument Sans',sans-serif;
+  transition:all .2s;
+}
+.a-btn:hover{background:#c44020}
+
+.about-right{
+  display:grid;grid-template-columns:1fr 1fr;gap:14px;
+}
+.a-stat{
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:18px;padding:28px 24px;
+  transition:background .2s;
+}
+.a-stat:hover{background:rgba(255,255,255,.08)}
+.a-n{
+  font-family:'Fraunces',serif;
+  font-size:44px;font-weight:900;letter-spacing:-.04em;
+  color:var(--sand);margin-bottom:6px;
+}
+.a-n em{font-style:italic;color:var(--gold)}
+.a-l{font-size:12px;color:rgba(240,232,214,.5)}
+
+/* HOW */
+.how{padding:100px 60px;max-width:1200px;margin:0 auto}
+
+.how-eyebrow{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--olive);font-weight:600;margin-bottom:14px}
+.how-h2{
+  font-family:'Fraunces',serif;
+  font-size:clamp(36px,5vw,56px);font-weight:900;letter-spacing:-.03em;
+  margin-bottom:60px;
+}
+.how-h2 em{font-style:italic;color:var(--terra)}
+
+.how-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+.h-step{position:relative}
+
+.step-dot{
+  width:52px;height:52px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Fraunces',serif;
+  font-size:22px;font-weight:900;
+  margin-bottom:20px;
+  color:var(--sand);
+}
+.dot-1{background:var(--terra)}
+.dot-2{background:var(--olive)}
+.dot-3{background:var(--brown)}
+
+.hs-title{
+  font-family:'Fraunces',serif;
+  font-size:21px;font-weight:700;letter-spacing:-.02em;
+  margin-bottom:10px;
+}
+.hs-desc{font-size:14px;color:var(--muted);line-height:1.7}
+
+/* Connect line */
+.h-step:not(:last-child)::after{
+  content:'';
+  position:absolute;
+  top:26px;left:calc(100% + 4px);
+  width:calc(32px - 8px);
+  height:1px;
+  border-top:1.5px dashed var(--border);
+}
+
+/* CATEGORIES */
+.cats{padding:0 60px 100px;max-width:1200px;margin:0 auto}
+.cats-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:14px;
+  margin-top:40px;
+}
+.c-card{
+  border:1px solid var(--border);
+  border-radius:18px;padding:24px 20px;
+  background:var(--sand);
+  cursor:pointer;transition:all .25s;
+  position:relative;overflow:hidden;
+}
+.c-card::before{
+  content:'';position:absolute;inset:0;
+  opacity:0;transition:opacity .3s;
+  border-radius:inherit;
+}
+.c-card:hover{border-color:var(--brown);transform:translateY(-3px);box-shadow:0 8px 24px rgba(26,18,8,.08)}
+.c-card:hover::before{opacity:1}
+.c-card:nth-child(odd)::before{background:rgba(196,92,42,.04)}
+.c-card:nth-child(even)::before{background:rgba(90,110,58,.04)}
+
+.c-em{font-size:28px;margin-bottom:12px;display:block}
+.c-n{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:4px}
+.c-ct{font-size:11px;color:var(--muted)}
+
+/* USSD */
+.ussd-section{
+  background:var(--sand2);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  padding:100px 60px;
+  display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;
+}
+.u-eyebrow{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--terra);font-weight:600;margin-bottom:18px}
+.u-h2{
+  font-family:'Fraunces',serif;
+  font-size:clamp(36px,5vw,56px);font-weight:900;letter-spacing:-.03em;line-height:1.05;
+  margin-bottom:20px;
+}
+.u-p{font-size:16px;color:var(--muted);line-height:1.75;margin-bottom:28px}
+.u-code{
+  display:inline-block;
+  font-family:'Fraunces',serif;
+  font-size:42px;font-weight:900;color:var(--terra);
+  letter-spacing:-.02em;
+}
+
+.ussd-mockup{
+  background:var(--ink2);
+  border-radius:24px;
+  padding:32px;
+  border:3px solid var(--ink);
+  box-shadow:12px 12px 0 var(--ink);
+}
+.um-header{
+  display:flex;align-items:center;gap:8px;
+  margin-bottom:20px;padding-bottom:16px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.um-dot{width:8px;height:8px;border-radius:50%}
+.um-title{font-size:11px;color:rgba(255,255,255,.3);letter-spacing:.08em;text-transform:uppercase;font-weight:500;margin-left:auto}
+.um-item{
+  padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05);
+  display:flex;align-items:center;gap:12px;
+  font-size:14px;
+}
+.um-num{
+  width:22px;height:22px;border-radius:6px;
+  background:rgba(255,255,255,.06);
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:600;color:rgba(255,255,255,.4);
+  flex-shrink:0;
+}
+.um-text{color:rgba(255,255,255,.75)}
+.um-item.hl .um-num{background:var(--terra)}
+.um-item.hl .um-text{color:#fff;font-weight:600}
+.um-footer{margin-top:16px;font-size:11px;color:rgba(255,255,255,.25);text-align:center}
+
+/* CTA */
+.cta-final{
+  padding:100px 60px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.cta-final::before{
+  content:'';position:absolute;
+  inset:0;
+  background:radial-gradient(ellipse at 50% 100%,rgba(196,92,42,.06),transparent 60%);
+  pointer-events:none;
+}
+.cf-h{
+  font-family:'Fraunces',serif;
+  font-size:clamp(44px,6vw,80px);font-weight:900;
+  letter-spacing:-.04em;line-height:1.0;
+  margin-bottom:20px;position:relative;
+}
+.cf-h em{font-style:italic;color:var(--terra)}
+.cf-p{font-size:17px;color:var(--muted);margin-bottom:40px;position:relative}
+.cf-btns{display:flex;align-items:center;justify-content:center;gap:14px;position:relative}
+
+footer{
+  padding:40px 60px;border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.fl{font-family:'Fraunces',serif;font-weight:900;font-size:16px;color:var(--muted);letter-spacing:-.03em}
+.fc{font-size:12px;color:var(--muted)}
+.lc-inline{width:16px;height:16px;vertical-align:text-bottom;margin-right:4px}
+.lc-feat{width:20px;height:20px}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="logo-fr">
+    <div class="logo-leaf">
+      <i data-lucide="leaf" style="width:16px;height:16px;color:#fff"></i>
+    </div>
+    Konekta
+  </a>
+  <div class="n-links">
+    <a href="#">Explorar</a>
+    <a href="#">Categorias</a>
+    <a href="#">Prestadores</a>
+    <a href="#">Preços</a>
+  </div>
+  <div class="n-ctas">
+    <button class="btn-line">Entrar</button>
+    <button class="btn-filled">Começar →</button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-left">
+    <div class="h-kicker">
+      <span class="kick-line"></span>
+      Luanda, Angola · 2026
+    </div>
+
+    <h1 class="h1-serif">
+      O serviço que<br>
+      <em class="h1-em">precisas</em><br>
+      ao teu lado
+    </h1>
+
+    <p class="h-desc">
+      Conectamos quem precisa de uma tarefa feita com quem quer ganhar ao realizá-la. 
+      Rápido, verificado e seguro.
+    </p>
+
+    <div class="hero-actions">
+      <button class="btn-big-fill">
+        Publicar tarefa
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" viewBox="0 0 14 14"><path d="M3 7h8M8 4l3 3-3 3"/></svg>
+      </button>
+      <button class="btn-big-out">Sou prestador</button>
+    </div>
+
+    <div class="trust-row">
+      <div class="trust-avatars">
+        <div class="t-av" style="background:#c45c2a">RC</div>
+        <div class="t-av" style="background:#5a6e3a">AT</div>
+        <div class="t-av" style="background:#6b4c2a">FM</div>
+        <div class="t-av" style="background:#d4a030">CN</div>
+      </div>
+      <div class="trust-text"><strong>+1.200 prestadores</strong><br>verificados e prontos em Luanda</div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <!-- Floating stat 1 -->
+    <div class="float-stat fs1">
+      <div class="fs-n">4.8 <i data-lucide="star" class="lc-inline" style="color:var(--gold)"></i></div>
+      <div class="fs-l">Avaliação média</div>
+    </div>
+
+    <!-- Task cards -->
+    <div class="task-card">
+      <div class="tc-header">
+        <div class="tc-emoji">
+          <i data-lucide="wrench" class="lc-feat" style="color:var(--brown)"></i>
+        </div>
+          <div class="tc-title">Reparação de canalização urgente</div>
+          <div class="tc-meta">Ingombota · Publicado há 5 min</div>
+        </div>
+        <div class="tc-price">15.000 Kz</div>
+      </div>
+      <div class="tc-foot">
+        <span class="tc-badge b-terra">⚡ Urgente</span>
+        <span class="tc-badge b-olive">✓ Verificado</span>
+        <div class="tc-provider">
+          <div class="p-av">RC</div>
+          Rui C. enviou proposta
+        </div>
+      </div>
+    </div>
+
+    <div class="task-card">
+      <div class="tc-header">
+        <div class="tc-emoji">
+          <i data-lucide="monitor" class="lc-feat" style="color:var(--olive)"></i>
+        </div>
+          <div class="tc-title">Desenvolvimento de app React</div>
+          <div class="tc-meta">Talatona · Publicado há 2 h</div>
+        </div>
+        <div class="tc-price">180.000 Kz</div>
+      </div>
+      <div class="tc-foot">
+        <span class="tc-badge b-gold">🎓 Expert</span>
+        <span class="tc-badge b-olive">3 propostas</span>
+        <div class="tc-provider">
+          <div class="p-av" style="background:var(--olive)">JN</div>
+          João N. · 4.9★
+        </div>
+      </div>
+    </div>
+
+    <div class="task-card">
+      <div class="tc-header">
+        <div class="tc-emoji">
+          <i data-lucide="brush" class="lc-feat" style="color:var(--terra)"></i>
+        </div>
+          <div class="tc-title">Limpeza profunda T3</div>
+          <div class="tc-meta">Maianga · Publicado há 1 h</div>
+        </div>
+        <div class="tc-price">12.000 Kz</div>
+      </div>
+      <div class="tc-foot">
+        <span class="tc-badge b-olive">
+          <i data-lucide="check" class="lc-inline"></i> Concluída
+        </span>
+        <div class="tc-provider">
+          <div class="p-av" style="background:var(--brown)">CN</div>
+          Cláudia N. · 
+          <i data-lucide="star" class="lc-inline" style="color:var(--gold)"></i>
+          <i data-lucide="star" class="lc-inline" style="color:var(--gold)"></i>
+          <i data-lucide="star" class="lc-inline" style="color:var(--gold)"></i>
+          <i data-lucide="star" class="lc-inline" style="color:var(--gold)"></i>
+          <i data-lucide="star" class="lc-inline" style="color:var(--gold)"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Floating stat 2 -->
+    <div class="float-stat fs2">
+      <div class="fs-n">100%</div>
+      <div class="fs-l">Escrow seguro</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about">
+  <div class="about-left">
+    <div class="a-eyebrow">A nossa missão</div>
+    <h2 class="a-h2">Angola merece um mercado<br><em>à sua altura</em></h2>
+    <p class="a-p">O Konekta nasceu em Luanda para conectar pessoas reais a serviços reais. Sem intermediários desnecessários. Com pagamento seguro, identidade verificada e acesso via USSD para quem não tem smartphone.</p>
+    <button class="a-btn">Saber mais →</button>
+  </div>
+  <div class="about-right">
+    <div class="a-stat">
+      <div class="a-n">1.2<em>K</em></div>
+      <div class="a-l">Prestadores activos</div>
+    </div>
+    <div class="a-stat">
+      <div class="a-n">8.5<em>K</em></div>
+      <div class="a-l">Tarefas concluídas</div>
+    </div>
+    <div class="a-stat">
+      <div class="a-n">4.<em>8</em></div>
+      <div class="a-l">Avaliação média</div>
+    </div>
+    <div class="a-stat">
+      <div class="a-n">12<em>+</em></div>
+      <div class="a-l">Categorias</div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW -->
+<section class="how">
+  <div class="how-eyebrow">Como funciona</div>
+  <h2 class="how-h2">Três passos,<br><em>sem complicações</em></h2>
+  <div class="how-steps">
+    <div class="h-step">
+      <div class="step-dot dot-1">1</div>
+      <h3 class="hs-title">Publica a tua tarefa</h3>
+      <p class="hs-desc">Descreve o que precisas, define o orçamento e a urgência. Publicado em menos de 2 minutos com ou sem smartphone.</p>
+    </div>
+    <div class="h-step">
+      <div class="step-dot dot-2">2</div>
+      <h3 class="hs-title">Recebe propostas reais</h3>
+      <p class="hs-desc">Prestadores certificados candidatam-se com preço e prazo. Vê perfil, avaliações e portfólio antes de decidir.</p>
+    </div>
+    <div class="h-step">
+      <div class="step-dot dot-3">3</div>
+      <h3 class="hs-title">Confirma e paga seguro</h3>
+      <p class="hs-desc">O pagamento fica em escrow via Multicaixa. Libertado só quando confirmas que o trabalho está bem feito.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CATS -->
+<section class="cats">
+  <div class="how-eyebrow">Categorias</div>
+  <h2 class="how-h2" style="margin-bottom:0">Qualquer serviço.<br><em>Na tua zona.</em></h2>
+  <div class="cats-grid">
+    <div class="c-card">
+      <span class="c-em"><i data-lucide="wrench"></i></span>
+      <div class="c-n">Casa & Reparações</div>
+      <div class="c-ct">342 tarefas activas</div>
+    </div>
+    <div class="c-card">
+      <span class="c-em"><i data-lucide="monitor"></i></span>
+      <div class="c-n">Tecnologia</div>
+      <div class="c-ct">218 tarefas activas</div>
+    </div>
+    <div class="c-card">
+      <span class="c-em"><i data-lucide="brush"></i></span>
+      <div class="c-n">Limpeza</div>
+      <div class="c-ct">187 tarefas activas</div>
+    </div>
+    <div class="c-card">
+      <span class="c-em"><i data-lucide="palette"></i></span>
+      <div class="c-n">Design</div>
+      <div class="c-ct">156 tarefas activas</div>
+    </div>
+    <div class="c-card">
+      <span class="c-em"><i data-lucide="package"></i></span>
+      <div class="c-n">Entregas</div>
+      <div class="c-ct">203 tarefas activas</div>
+    </div>
+    <div class="c-card">
+      <span class="c-em"><i data-lucide="book-open"></i></span>
+      <div class="c-n">Ensino</div>
+      <div class="c-ct">134 tarefas activas</div>
+    </div>
+    <div class="c-card">
+      <span class="c-em"><i data-lucide="leaf"></i></span>
+      <div class="c-n">Jardinagem</div>
+      <div class="c-ct">89 tarefas activas</div>
+    </div>
+    <div class="c-card">
+      <span class="c-em"><i data-lucide="camera"></i></span>
+      <div class="c-n">Fotografia</div>
+      <div class="c-ct">97 tarefas activas</div>
+    </div>
+  </div>
+</section>
+
+<!-- USSD -->
+<section class="ussd-section">
+  <div>
+    <div class="u-eyebrow">Inclusão digital</div>
+    <h2 class="u-h2">Sem smartphone?<br>Sem problema.</h2>
+    <p class="u-p">Qualquer angolano pode usar o Konekta — mesmo sem dados móveis ou internet. Funciona em qualquer telemóvel via USSD.</p>
+    <div class="u-code">*920*99#</div>
+    <div style="margin-top:10px;font-size:13px;color:var(--muted)">Unitel · Movicel · Africell</div>
+  </div>
+  <div class="ussd-mockup">
+    <div class="um-header">
+      <div class="um-dot" style="background:#c45c2a"></div>
+      <div class="um-dot" style="background:#d4a030"></div>
+      <div class="um-dot" style="background:#5a6e3a"></div>
+      <div class="um-title">Konekta · *920*99#</div>
+    </div>
+    <div class="um-item hl">
+      <div class="um-num">1</div>
+      <div class="um-text">Publicar tarefa</div>
+    </div>
+    <div class="um-item">
+      <div class="um-num">2</div>
+      <div class="um-text">As minhas tarefas</div>
+    </div>
+    <div class="um-item">
+      <div class="um-num">3</div>
+      <div class="um-text">Propostas recebidas</div>
+    </div>
+    <div class="um-item">
+      <div class="um-num">4</div>
+      <div class="um-text">A minha carteira</div>
+    </div>
+    <div class="um-item">
+      <div class="um-num">5</div>
+      <div class="um-text">A minha conta</div>
+    </div>
+    <div class="um-footer">Introduz o número e prime enviar</div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-final">
+  <h2 class="cf-h">Começa hoje.<br><em>É grátis.</em></h2>
+  <p class="cf-p">Sem mensalidade. Comissão só em tarefas concluídas.</p>
+  <div class="cf-btns">
+    <button class="btn-big-fill">Criar conta gratuita</button>
+    <button class="btn-big-out">Ver prestadores →</button>
+  </div>
+</section>
+
+<footer>
+  <div class="fl">Konekta</div>
+  <div class="fc">Luanda, Angola · konekta.works</div>
+  <div class="fc">© 2026 Konekta</div>
+</footer>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+  lucide.createIcons();
+</script>
+
+</body>
+</html>

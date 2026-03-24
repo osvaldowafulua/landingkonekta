@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Konekta — Modelo 2 Aurora</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;700;800;900&family=Instrument+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:     #ffffff;
+  --bg2:    #fafafa;
+  --ink:    #0d0d0d;
+  --ink2:   #1a1a1a;
+  --muted:  #6e6e73;
+  --border: rgba(0,0,0,0.07);
+  --border2:rgba(0,0,0,0.12);
+  --c1: #f97316;
+  --c2: #ec4899;
+  --c3: #8b5cf6;
+  --c4: #06b6d4;
+  --c5: #22c55e;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Instrument Sans',sans-serif;
+  font-weight:400;
+  overflow-x:hidden;
+}
+
+/* ── NAV ── */
+nav {
+  position:fixed;
+  top:0; left:0; right:0;
+  z-index:100;
+  padding:0 48px;
+  height:64px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:rgba(255,255,255,0.85);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+
+.logo {
+  font-family:'Cabinet Grotesk',sans-serif;
+  font-weight:900;
+  font-size:20px;
+  letter-spacing:-0.04em;
+  color:var(--ink);
+  text-decoration:none;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.logo-k {
+  width:30px; height:30px;
+  background:var(--ink);
+  border-radius:8px;
+  display:flex; align-items:center; justify-content:center;
+  color:#fff;
+  font-size:14px;
+  font-weight:900;
+}
+
+.nav-center {
+  display:flex;
+  align-items:center;
+  gap:4px;
+  background:var(--bg2);
+  border:1px solid var(--border2);
+  border-radius:24px;
+  padding:4px;
+}
+
+.nav-center a {
+  padding:6px 16px;
+  border-radius:20px;
+  font-size:13px;
+  font-weight:500;
+  color:var(--muted);
+  text-decoration:none;
+  transition:all 0.2s;
+}
+.nav-center a:hover { color:var(--ink); background:var(--bg); }
+.nav-center a.active { color:var(--ink); background:var(--bg); }
+
+.nav-right { display:flex; gap:10px; align-items:center; }
+
+.btn-outline {
+  height:36px; padding:0 18px;
+  background:transparent;
+  border:1px solid var(--border2);
+  border-radius:18px;
+  font-size:13px; font-weight:500;
+  color:var(--ink);
+  cursor:pointer;
+  font-family:'Instrument Sans',sans-serif;
+  transition:all 0.2s;
+}
+.btn-outline:hover { background:var(--bg2); }
+
+.btn-fill {
+  height:36px; padding:0 18px;
+  background:var(--ink);
+  border:none;
+  border-radius:18px;
+  font-size:13px; font-weight:500;
+  color:#fff;
+  cursor:pointer;
+  font-family:'Instrument Sans',sans-serif;
+  transition:all 0.2s;
+}
+.btn-fill:hover { background:var(--ink2); transform:translateY(-1px); }
+
+/* ── HERO ── */
+.hero {
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:120px 48px 80px;
+  position:relative;
+  overflow:hidden;
+}
+
+/* Aurora background */
+.aurora {
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+  pointer-events:none;
+}
+
+.aurora-blob {
+  position:absolute;
+  border-radius:50%;
+  filter:blur(100px);
+  opacity:0.35;
+}
+.ab1 { width:700px;height:700px;background:radial-gradient(circle,#f97316,transparent 70%); top:-200px;left:-150px; animation:ab1 12s ease-in-out infinite; }
+.ab2 { width:600px;height:600px;background:radial-gradient(circle,#8b5cf6,transparent 70%); top:-100px;right:-100px; animation:ab2 10s ease-in-out infinite; }
+.ab3 { width:500px;height:500px;background:radial-gradient(circle,#06b6d4,transparent 70%); bottom:-150px;left:20%; animation:ab3 14s ease-in-out infinite; }
+.ab4 { width:400px;height:400px;background:radial-gradient(circle,#ec4899,transparent 70%); bottom:-100px;right:10%; animation:ab4 11s ease-in-out infinite; }
+
+@keyframes ab1{0%,100%{transform:translate(0,0)}33%{transform:translate(80px,60px)}66%{transform:translate(-40px,30px)}}
+@keyframes ab2{0%,100%{transform:translate(0,0)}33%{transform:translate(-60px,80px)}66%{transform:translate(40px,-30px)}}
+@keyframes ab3{0%,100%{transform:translate(0,0)}50%{transform:translate(60px,-60px)}}
+@keyframes ab4{0%,100%{transform:translate(0,0)}50%{transform:translate(-80px,40px)}}
+
+/* Hero content */
+.hero-badge {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:7px 16px;
+  background:rgba(255,255,255,0.8);
+  backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,0.9);
+  border-radius:24px;
+  font-size:12px;
+  font-weight:500;
+  color:var(--muted);
+  margin-bottom:32px;
+  box-shadow:0 2px 16px rgba(0,0,0,0.06);
+  animation:fadeUp 0.5s ease both;
+}
+
+.badge-dots {
+  display:flex; gap:3px;
+}
+.badge-dot {
+  width:6px; height:6px;
+  border-radius:50%;
+}
+
+h1.hero-h1 {
+  font-family:'Cabinet Grotesk',sans-serif;
+  font-size:clamp(56px,8vw,104px);
+  font-weight:900;
+  letter-spacing:-0.04em;
+  line-height:0.95;
+  margin-bottom:28px;
+  position:relative;
+  animation:fadeUp 0.5s 0.1s ease both;
+}
+
+.h1-word {
+  display:inline-block;
+  position:relative;
+}
+
+.h1-highlight {
+  position:relative;
+  display:inline-block;
+}
+.h1-highlight::after {
+  content:'';
+  position:absolute;
+  bottom:4px; left:0; right:0;
+  height:8px;
+  background:linear-gradient(90deg, var(--c1), var(--c2));
+  opacity:0.3;
+  border-radius:4px;
+  z-index:-1;
+}
+
+.hero-sub {
+  font-size:18px;
+  color:var(--muted);
+  max-width:540px;
+  margin:0 auto 44px;
+  line-height:1.65;
+  animation:fadeUp 0.5s 0.2s ease both;
+  font-style:italic;
+}
+
+.hero-cta-row {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  animation:fadeUp 0.5s 0.3s ease both;
+}
+
+.cta-big {
+  height:56px; padding:0 32px;
+  background:var(--ink);
+  border:none; border-radius:28px;
+  font-size:15px; font-weight:500;
+  color:#fff;
+  cursor:pointer;
+  font-family:'Instrument Sans',sans-serif;
+  display:flex; align-items:center; gap:10px;
+  transition:all 0.25s;
+  box-shadow:0 8px 32px rgba(0,0,0,0.18);
+}
+.cta-big:hover { transform:translateY(-2px); box-shadow:0 12px 40px rgba(0,0,0,0.24); }
+
+.cta-ghost {
+  height:56px; padding:0 28px;
+  background:rgba(255,255,255,0.7);
+  backdrop-filter:blur(10px);
+  border:1px solid rgba(0,0,0,0.1);
+  border-radius:28px;
+  font-size:15px; font-weight:500;
+  color:var(--ink);
+  cursor:pointer;
+  font-family:'Instrument Sans',sans-serif;
+  display:flex; align-items:center; gap:8px;
+  transition:all 0.2s;
+}
+.cta-ghost:hover { background:rgba(255,255,255,0.9); }
+
+/* Hero visual — floating cards */
+.hero-visual {
+  margin-top:80px;
+  position:relative;
+  width:100%;
+  max-width:860px;
+  height:320px;
+  animation:fadeUp 0.6s 0.4s ease both;
+}
+
+.float-card {
+  position:absolute;
+  background:rgba(255,255,255,0.75);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,0.9);
+  border-radius:20px;
+  padding:18px 22px;
+  box-shadow:0 4px 30px rgba(0,0,0,0.08);
+  animation:floatCard var(--d,6s) ease-in-out infinite;
+}
+
+@keyframes floatCard{0%,100%{transform:translateY(0)}50%{transform:translateY(var(--dy,-12px))}}
+
+.fc-task {
+  width:280px;
+  left:50%;
+  top:0;
+  transform:translateX(-50%);
+  --dy:-14px; --d:5s;
+}
+
+.fc-match {
+  width:220px;
+  left:5%;
+  top:60px;
+  --dy:-10px; --d:7s;
+}
+
+.fc-payment {
+  width:200px;
+  right:5%;
+  top:40px;
+  --dy:-8px; --d:6s;
+}
+
+.fc-review {
+  width:240px;
+  right:12%;
+  bottom:20px;
+  --dy:-12px; --d:8s;
+}
+
+.fc-label {
+  font-size:10px;
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+  color:var(--muted);
+  margin-bottom:10px;
+}
+
+.fc-title {
+  font-family:'Cabinet Grotesk',sans-serif;
+  font-size:15px;
+  font-weight:700;
+  margin-bottom:6px;
+  color:var(--ink);
+}
+
+.fc-meta {
+  font-size:12px;
+  color:var(--muted);
+}
+
+.fc-chip {
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  padding:3px 10px;
+  border-radius:20px;
+  font-size:10px;
+  font-weight:600;
+  margin-top:8px;
+}
+.chip-green { background:rgba(34,197,94,0.1); color:#16a34a; }
+.chip-amber { background:rgba(245,158,11,0.1); color:#d97706; }
+.chip-blue  { background:rgba(6,182,212,0.1); color:#0891b2; }
+
+.fc-stars { color:#f59e0b; font-size:13px; }
+.fc-amount {
+  font-family:'Cabinet Grotesk',sans-serif;
+  font-size:22px; font-weight:800;
+  color:var(--ink); letter-spacing:-0.03em;
+}
+
+/* Connection lines */
+.fc-avatar-row {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-top:10px;
+}
+.mini-avatar {
+  width:24px; height:24px;
+  border-radius:50%;
+  border:2px solid white;
+  font-size:9px;
+  font-weight:700;
+  display:flex; align-items:center; justify-content:center;
+  color:#fff;
+  margin-left:-6px;
+}
+.mini-avatar:first-child { margin-left:0; }
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── LOGOS / SOCIAL PROOF ── */
+.proof {
+  padding:60px 48px;
+  border-top:1px solid var(--border);
+  text-align:center;
+}
+.proof-label { font-size:12px; color:var(--muted); letter-spacing:0.1em; text-transform:uppercase; font-weight:500; margin-bottom:28px; }
+.proof-logos {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:48px;
+  flex-wrap:wrap;
+}
+.proof-logo {
+  font-family:'Cabinet Grotesk',sans-serif;
+  font-weight:900;
+  font-size:18px;
+  letter-spacing:-0.03em;
+  color:rgba(0,0,0,0.15);
+}
+
+/* ── CATEGORIES ── */
+.categories {
+  padding:80px 48px;
+  max-width:1200px;
+  margin:0 auto;
+}
+
+.sec-eyebrow {
+  font-size:12px; letter-spacing:0.12em; text-transform:uppercase;
+  font-weight:600; color:var(--muted); margin-bottom:14px;
+}
+
+.sec-h2 {
+  font-family:'Cabinet Grotesk',sans-serif;
+  font-size:clamp(32px,4vw,52px);
+  font-weight:900;
+  letter-spacing:-0.04em;
+  line-height:1.05;
+  margin-bottom:48px;
+}
+
+.cat-grid {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+}
+
+.cat-card {
+  padding:28px 24px;
+  border:1px solid var(--border);
+  border-radius:20px;
+  cursor:pointer;
+  transition:all 0.25s;
+  position:relative;
+  overflow:hidden;
+  background:var(--bg);
+}
+.cat-card::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  opacity:0;
+  transition:opacity 0.3s;
+  border-radius:inherit;
+}
+.cat-card:hover { transform:translateY(-4px); border-color:transparent; box-shadow:0 12px 40px rgba(0,0,0,0.1); }
+.cat-card:hover::before { opacity:1; }
+
+.cat-card:nth-child(1)::before { background:linear-gradient(135deg,rgba(249,115,22,0.07),rgba(236,72,153,0.04)); }
+.cat-card:nth-child(2)::before { background:linear-gradient(135deg,rgba(139,92,246,0.07),rgba(6,182,212,0.04)); }
+.cat-card:nth-child(3)::before { background:linear-gradient(135deg,rgba(34,197,94,0.07),rgba(6,182,212,0.04)); }
+.cat-card:nth-child(4)::before { background:linear-gradient(135deg,rgba(245,158,11,0.07),rgba(249,115,22,0.04)); }
+.cat-card:nth-child(5)::before { background:linear-gradient(135deg,rgba(6,182,212,0.07),rgba(139,92,246,0.04)); }
+.cat-card:nth-child(6)::before { background:linear-gradient(135deg,rgba(236,72,153,0.07),rgba(249,115,22,0.04)); }
+.cat-card:nth-child(7)::before { background:linear-gradient(135deg,rgba(34,197,94,0.07),rgba(245,158,11,0.04)); }
+.cat-card:nth-child(8)::before { background:linear-gradient(135deg,rgba(139,92,246,0.07),rgba(236,72,153,0.04)); }
+
+.cat-emoji { font-size:30px; margin-bottom:14px; display:block; }
+.cat-name {
+  font-family:'Cabinet Grotesk',sans-serif;
+  font-size:15px; font-weight:700; letter-spacing:-0.02em; margin-bottom:5px;
+}
+.cat-count { font-size:12px; color:var(--muted); }
+
+/* ── TRUST ── */
+.trust {
+  padding:80px 48px;
+  background:var(--ink);
+  color:#fff;
+}
+.trust-inner {
+  max-width:1100px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:80px;
+  align-items:center;
+}
+
+.trust-left .sec-h2 { color:#fff; }
+.trust-left .sec-eyebrow { color:rgba(255,255,255,0.4); }
+
+.trust-right {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+
+.trust-card {
+  padding:28px 24px;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:18px;
+  transition:background 0.2s;
+}
+.trust-card:hover { background:rgba(255,255,255,0.08); }
+
+.trust-icon { font-size:24px; margin-bottom:14px; }
+.trust-title { font-family:'Cabinet Grotesk',sans-serif; font-size:15px; font-weight:700; margin-bottom:7px; letter-spacing:-0.02em; }
+.trust-desc { font-size:12px; color:rgba(255,255,255,0.45); line-height:1.6; }
+
+/* ── NUMBERS ── */
+.numbers {
+  padding:80px 48px;
+  max-width:900px;
+  margin:0 auto;
+}
+
+.numbers-row {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:0;
+  border:1px solid var(--border);
+  border-radius:24px;
+  overflow:hidden;
+}
+
+.num-item {
+  padding:36px 32px;
+  text-align:center;
+  border-right:1px solid var(--border);
+  transition:background 0.2s;
+}
+.num-item:last-child { border-right:none; }
+.num-item:hover { background:var(--bg2); }
+
+.num-val {
+  font-family:'Cabinet Grotesk',sans-serif;
+  font-size:40px; font-weight:900; letter-spacing:-0.04em;
+  margin-bottom:6px;
+  background:linear-gradient(135deg, var(--ink), var(--muted));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.num-label { font-size:12px; color:var(--muted); }
+
+/* ── CTA ── */
+.final-cta {
+  padding:80px 48px 120px;
+}
+.cta-box {
+  max-width:780px;
+  margin:0 auto;
+  padding:80px 60px;
+  background:var(--ink);
+  border-radius:32px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+
+.cta-aurora {
+  position:absolute; inset:0; overflow:hidden; pointer-events:none;
+}
+.ca1 { position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(249,115,22,0.25),transparent 70%);top:-100px;left:-80px;border-radius:50%;filter:blur(60px); }
+.ca2 { position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(139,92,246,0.2),transparent 70%);bottom:-80px;right:-60px;border-radius:50%;filter:blur(60px); }
+
+.cta-box h2 {
+  font-family:'Cabinet Grotesk',sans-serif;
+  font-size:clamp(32px,4vw,52px); font-weight:900;
+  letter-spacing:-0.04em; color:#fff;
+  margin-bottom:16px; position:relative;
+}
+.cta-box p {
+  font-size:16px; color:rgba(255,255,255,0.5);
+  margin-bottom:36px; line-height:1.6; position:relative;
+}
+.cta-row {
+  display:flex; align-items:center; justify-content:center;
+  gap:12px; position:relative;
+}
+
+.btn-white {
+  height:52px; padding:0 28px;
+  background:#fff; border:none; border-radius:26px;
+  font-size:14px; font-weight:500;
+  color:var(--ink); cursor:pointer;
+  font-family:'Instrument Sans',sans-serif;
+  transition:all 0.2s;
+  display:flex; align-items:center; gap:8px;
+}
+.btn-white:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(255,255,255,0.2); }
+
+.btn-ghost-w {
+  height:52px; padding:0 24px;
+  background:transparent;
+  border:1px solid rgba(255,255,255,0.2);
+  border-radius:26px;
+  font-size:14px; font-weight:500; color:rgba(255,255,255,0.7);
+  cursor:pointer; font-family:'Instrument Sans',sans-serif;
+  transition:all 0.2s;
+}
+.btn-ghost-w:hover { border-color:rgba(255,255,255,0.4); color:#fff; }
+
+/* FOOTER */
+footer {
+  padding:40px 48px;
+  border-top:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between;
+}
+.foot-logo {
+  font-family:'Cabinet Grotesk',sans-serif;
+  font-weight:900; font-size:16px; letter-spacing:-0.03em; color:var(--muted);
+}
+.foot-copy { font-size:12px; color:var(--muted); }
+.lc-inline{width:16px;height:16px;vertical-align:text-bottom;margin-right:4px}
+.lc-card{width:20px;height:20px;margin-bottom:12px}
+.lc-float{width:14px;height:14px;vertical-align:middle;margin-right:4px}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-k">K</div>
+    Konekta
+  </a>
+  <div class="nav-center">
+    <a href="#" class="active">Início</a>
+    <a href="#">Categorias</a>
+    <a href="#">Como funciona</a>
+    <a href="#">Preços</a>
+  </div>
+  <div class="nav-right">
+    <button class="btn-outline">Entrar</button>
+    <button class="btn-fill">Começar →</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="aurora">
+    <div class="aurora-blob ab1"></div>
+    <div class="aurora-blob ab2"></div>
+    <div class="aurora-blob ab3"></div>
+    <div class="aurora-blob ab4"></div>
+  </div>
+
+  <div class="hero-badge">
+    <div class="badge-dots">
+      <div class="badge-dot" style="background:#f97316"></div>
+      <div class="badge-dot" style="background:#8b5cf6"></div>
+      <div class="badge-dot" style="background:#06b6d4"></div>
+    </div>
+    Marketplace #1 em Luanda, Angola
+  </div>
+
+  <h1 class="hero-h1">
+    O trabalho<br>
+    <span class="h1-highlight">encontra-te</span>
+  </h1>
+
+  <p class="hero-sub">
+    Publica uma tarefa ou oferece o teu serviço — pagamento seguro, 
+    prestadores verificados, sem complicações.
+  </p>
+
+  <div class="hero-cta-row">
+    <button class="cta-big">
+      Publicar tarefa grátis
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+        <path d="M3 8h10M9 4l4 4-4 4"/>
+      </svg>
+    </button>
+    <button class="cta-ghost">
+      Ver prestadores
+    </button>
+  </div>
+
+  <!-- Floating cards -->
+  <div class="hero-visual">
+    <div class="float-card fc-task">
+      <div class="fc-label">Nova tarefa publicada</div>
+      <div class="fc-title">Reparação de canalização</div>
+      <div class="fc-meta">Ingombota · 15.000 Kz</div>
+      <div class="fc-chip chip-amber"><i data-lucide="clock" class="lc-float"></i> Urgente</div>
+    </div>
+
+    <div class="float-card fc-match">
+      <div class="fc-label">Match encontrado</div>
+      <div class="fc-title">Rui C. — Canalizador</div>
+      <div class="fc-stars"><i data-lucide="star" class="lc-float"></i> 4.9 · 127 tarefas</div>
+      <div class="fc-chip chip-green"><i data-lucide="check" class="lc-float"></i> Verificado</div>
+    </div>
+
+    <div class="float-card fc-payment">
+      <div class="fc-label">Pagamento recebido</div>
+      <div class="fc-amount">12.000 Kz</div>
+      <div class="fc-meta" style="margin-top:4px">via Multicaixa Express</div>
+      <div class="fc-chip chip-blue"><i data-lucide="lock" class="lc-float"></i> Em escrow</div>
+    </div>
+
+    <div class="float-card fc-review">
+      <div class="fc-label">Avaliação deixada</div>
+      <div class="fc-stars" style="margin-bottom:6px">
+        <i data-lucide="star" class="lc-float" style="color:#f59e0b"></i>
+        <i data-lucide="star" class="lc-float" style="color:#f59e0b"></i>
+        <i data-lucide="star" class="lc-float" style="color:#f59e0b"></i>
+        <i data-lucide="star" class="lc-float" style="color:#f59e0b"></i>
+        <i data-lucide="star" class="lc-float" style="color:#f59e0b"></i>
+      </div>
+      <div class="fc-title" style="font-size:13px">"Excelente serviço, muito profissional!"</div>
+      <div class="fc-avatar-row" style="margin-top:10px">
+        <div class="mini-avatar" style="background:#f97316">MK</div>
+        <div class="mini-avatar" style="background:#8b5cf6">AL</div>
+        <div class="mini-avatar" style="background:#06b6d4">PM</div>
+        <span style="font-size:11px;color:#6e6e73;margin-left:4px">+1.200 clientes satisfeitos</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF -->
+<div class="proof">
+  <div class="proof-label">Parceiros técnicos</div>
+  <div class="proof-logos">
+    <div class="proof-logo">Supabase</div>
+    <div class="proof-logo">AppyPay</div>
+    <div class="proof-logo">Multicaixa</div>
+    <div class="proof-logo">Africa's Talking</div>
+    <div class="proof-logo">Vercel</div>
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<section class="categories">
+  <div class="sec-eyebrow">O que podes contratar</div>
+  <h2 class="sec-h2">Qualquer tarefa.<br>Em Luanda.</h2>
+
+  <div class="cat-grid">
+    <div class="cat-card">
+      <span class="cat-emoji"><i data-lucide="wrench"></i></span>
+      <div class="cat-name">Casa & Reparações</div>
+      <div class="cat-count">342 tarefas activas</div>
+    </div>
+    <div class="cat-card">
+      <span class="cat-emoji"><i data-lucide="monitor"></i></span>
+      <div class="cat-name">Tecnologia</div>
+      <div class="cat-count">218 tarefas activas</div>
+    </div>
+    <div class="cat-card">
+      <span class="cat-emoji"><i data-lucide="brush"></i></span>
+      <div class="cat-name">Limpeza</div>
+      <div class="cat-count">187 tarefas activas</div>
+    </div>
+    <div class="cat-card">
+      <span class="cat-emoji"><i data-lucide="palette"></i></span>
+      <div class="cat-name">Design</div>
+      <div class="cat-count">156 tarefas activas</div>
+    </div>
+    <div class="cat-card">
+      <span class="cat-emoji"><i data-lucide="package"></i></span>
+      <div class="cat-name">Entregas</div>
+      <div class="cat-count">203 tarefas activas</div>
+    </div>
+    <div class="cat-card">
+      <span class="cat-emoji"><i data-lucide="book-open"></i></span>
+      <div class="cat-name">Ensino</div>
+      <div class="cat-count">134 tarefas activas</div>
+    </div>
+    <div class="cat-card">
+      <span class="cat-emoji"><i data-lucide="leaf"></i></span>
+      <div class="cat-name">Jardinagem</div>
+      <div class="cat-count">89 tarefas activas</div>
+    </div>
+    <div class="cat-card">
+      <span class="cat-emoji"><i data-lucide="camera"></i></span>
+      <div class="cat-name">Fotografia</div>
+      <div class="cat-count">97 tarefas activas</div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST -->
+<section class="trust">
+  <div class="trust-inner">
+    <div class="trust-left">
+      <div class="sec-eyebrow">Segurança</div>
+      <h2 class="sec-h2">A tua segurança<br>é a nossa<br>prioridade.</h2>
+    </div>
+    <div class="trust-right">
+      <div class="trust-card">
+        <div class="trust-icon"><i data-lucide="shield-check" class="lc-card"></i></div>
+        <div class="trust-title">KYC verificado</div>
+        <div class="trust-desc">Identidade de todos os prestadores confirmada com documento oficial.</div>
+      </div>
+      <div class="trust-card">
+        <div class="trust-icon"><i data-lucide="lock" class="lc-card"></i></div>
+        <div class="trust-title">Pagamento escrow</div>
+        <div class="trust-desc">O dinheiro só sai quando confirmas que o trabalho está feito.</div>
+      </div>
+      <div class="trust-card">
+        <div class="trust-icon"><i data-lucide="graduation-cap" class="lc-card"></i></div>
+        <div class="trust-title">Certificação</div>
+        <div class="trust-desc">Os melhores prestadores passam por entrevista em vídeo.</div>
+      </div>
+      <div class="trust-card">
+        <div class="trust-icon"><i data-lucide="smartphone" class="lc-card"></i></div>
+        <div class="trust-title">USSD incluso</div>
+        <div class="trust-desc">Funciona mesmo sem smartphone via *920*99#.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NUMBERS -->
+<section class="numbers" style="margin:0 auto;padding:80px 48px">
+  <div class="numbers-row">
+    <div class="num-item">
+      <div class="num-val">1.2K+</div>
+      <div class="num-label">Prestadores activos</div>
+    </div>
+    <div class="num-item">
+      <div class="num-val">8.5K</div>
+      <div class="num-label">Tarefas concluídas</div>
+    </div>
+    <div class="num-item">
+      <div class="num-val">4.8<i data-lucide="star" class="lc-inline" style="width:24px;height:24px;margin-left:4px;color:var(--ink)"></i></div>
+      <div class="num-label">Avaliação média</div>
+    </div>
+    <div class="num-item">
+      <div class="num-val">100%</div>
+      <div class="num-label">Pagamentos seguros</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="final-cta">
+  <div class="cta-box">
+    <div class="cta-aurora"><div class="ca1"></div><div class="ca2"></div></div>
+    <h2>Começa hoje.<br>É grátis.</h2>
+    <p>Sem mensalidade. Comissão só em tarefas concluídas.</p>
+    <div class="cta-row">
+      <button class="btn-white">
+        Criar conta gratuita →
+      </button>
+      <button class="btn-ghost-w">Ver como funciona</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-logo">Konekta</div>
+  <div class="foot-copy">Luanda, Angola · konekta.works</div>
+  <div class="foot-copy">© 2026 Konekta. Todos os direitos reservados.</div>
+</footer>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+  lucide.createIcons();
+</script>
+
+</body>
+</html>
