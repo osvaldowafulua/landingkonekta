@@ -550,7 +550,25 @@ nav {
   .nav-right .btn-fill { display: none; }
   .nav-right .btn-outline { display: none; }
   .nav-right .hide-mobile { display: none; }
-  .cat-grid { grid-template-columns: 1fr; }
+  /* Categories cards: horizontal + centered */
+  .cat-grid {
+    display: flex;
+    grid-template-columns: unset;
+    gap: 14px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0 24px;
+    margin: 0 -24px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  .cat-grid::-webkit-scrollbar { display: none; }
+  .cat-card {
+    flex: 0 0 84%;
+    max-width: 360px;
+    scroll-snap-align: center;
+    text-align: center;
+  }
   .float-card { display: none !important; }
   .categories { padding: 64px 24px; }
   .categories .sec-h2 {
