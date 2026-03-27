@@ -602,6 +602,7 @@ nav {
   transition: background 0.2s;
 }
 .sr-item:hover { background: #f5f5f7; }
+.sr-item.sr-active { background: #f5f5f7; outline: 1px solid rgba(0,0,0,0.06); }
 .sr-item i { color: var(--muted); width: 16px; }
 .sr-label { font-size: 11px; font-weight: 700; color: #aaa; text-transform: uppercase; padding: 10px 14px 4px; }
 
@@ -1880,12 +1881,122 @@ footer {
   const smartInput = document.getElementById('smartInput');
   const smartResults = document.getElementById('smartResults');
 
-  smartInput.addEventListener('input', (e) => {
-    if (e.target.value.length > 1) {
+  const smartSuggestions = [
+    { icon: 'zap', label: 'Canalização urgente' },
+    { icon: 'palette', label: 'Design de logotipo' },
+    { icon: 'home', label: 'Limpeza doméstica' },
+    { icon: 'code', label: 'Website institucional' },
+    { icon: 'wrench', label: 'Reparações em casa' },
+    { icon: 'truck', label: 'Mudanças residenciais' },
+    { icon: 'monitor', label: 'Assistência informática' },
+  ];
+
+  let activeIdx = 0;
+  let currentItems = [];
+
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  function renderResults(query) {
+    const q = query.trim().toLowerCase();
+    if (q.length < 2) {
+      smartResults.classList.remove('show');
+      smartResults.innerHTML = '<div class="sr-label">Sugestões inteligentes</div>';
+      currentItems = [];
+      activeIdx = 0;
+      return;
+    }
+
+    const scored = smartSuggestions
+      .map((s) => {
+        const l = s.label.toLowerCase();
+        const idx = l.indexOf(q);
+        const starts = l.startsWith(q);
+        const score = starts ? 3 : idx >= 0 ? 2 : 0;
+        return { ...s, score, idx };
+      })
+      .filter((s) => s.score > 0)
+      .sort((a, b) => b.score - a.score || a.idx - b.idx)
+      .slice(0, 6);
+
+    currentItems = scored;
+    activeIdx = 0;
+
+    if (currentItems.length === 0) {
       smartResults.classList.add('show');
-    } else {
+      smartResults.innerHTML =
+        '<div class="sr-label">Sugestões inteligentes</div>' +
+        `<div class="sr-item" style="cursor:default; opacity:.8;"><i data-lucide="search"></i> Nenhum resultado</div>`;
+      lucide.createIcons();
+      return;
+    }
+
+    const itemsHtml = currentItems
+      .map((s, i) => {
+        const isActive = i === activeIdx;
+        return `
+          <div class="sr-item${isActive ? ' sr-active' : ''}" data-idx="${i}">
+            <i data-lucide="${escapeHtml(s.icon)}"></i>
+            ${escapeHtml(s.label)}
+          </div>`;
+      })
+      .join('');
+
+    smartResults.classList.add('show');
+    smartResults.innerHTML = '<div class="sr-label">Sugestões inteligentes</div>' + itemsHtml;
+    lucide.createIcons();
+  }
+
+  function commitSelection(idx = 0) {
+    const item = currentItems[idx];
+    if (!item) return;
+    smartInput.value = item.label;
+    smartResults.classList.remove('show');
+    smartResults.innerHTML = '<div class="sr-label">Sugestões inteligentes</div>';
+    currentItems = [];
+    activeIdx = 0;
+  }
+
+  smartInput.addEventListener('input', (e) => renderResults(e.target.value));
+
+  smartInput.addEventListener('keydown', (e) => {
+    if (!smartResults.classList.contains('show')) return;
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      activeIdx = Math.min(activeIdx + 1, currentItems.length - 1);
+      renderResults(smartInput.value);
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      activeIdx = Math.max(activeIdx - 1, 0);
+      renderResults(smartInput.value);
+    } else if (e.key === 'Enter' || e.key === 'Tab') {
+      if (currentItems.length > 0) {
+        e.preventDefault();
+        commitSelection(activeIdx);
+      }
+    } else if (e.key === 'Escape') {
       smartResults.classList.remove('show');
     }
+  });
+
+  smartResults.addEventListener('mousemove', (e) => {
+    const item = e.target.closest('.sr-item');
+    if (!item) return;
+    const idx = Number(item.dataset.idx);
+    if (!Number.isFinite(idx)) return;
+    activeIdx = idx;
+    const nodes = smartResults.querySelectorAll('.sr-item');
+    nodes.forEach((n) => n.classList.remove('sr-active'));
+    item.classList.add('sr-active');
+  });
+
+  smartResults.addEventListener('click', (e) => {
+    const item = e.target.closest('.sr-item');
+    if (!item) return;
+    const idx = Number(item.dataset.idx);
+    if (!Number.isFinite(idx)) return;
+    commitSelection(idx);
   });
 
   document.addEventListener('click', (e) => {
