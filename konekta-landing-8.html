@@ -1295,9 +1295,6 @@ footer {
     <a href="#" style="font-size:14px; font-weight:600; color:var(--muted); text-decoration:none; margin-right: 24px;" class="hide-mobile">Sou prestador</a>
     <button class="btn-outline" style="margin-right: 8px;">Publicar tarefa &rarr;</button>
     <button class="btn-fill">Entrar</button>
-    <button class="nav-search-toggle" id="navSearchToggle" aria-label="Abrir pesquisa">
-      <i data-lucide="search"></i>
-    </button>
     <button class="nav-toggle" id="navToggle" aria-label="Abrir menu">
       <span class="nav-toggle-line"></span>
     </button>
@@ -1694,30 +1691,13 @@ footer {
   // Mobile nav toggle
   const navToggle = document.getElementById('navToggle');
   const mobileMenu = document.getElementById('mobileMenu');
-  const navSearchToggle = document.getElementById('navSearchToggle');
-  const headerSearchEl = document.getElementById('headerSearch');
   if (navToggle && mobileMenu) {
     navToggle.addEventListener('click', () => {
-      if (headerSearchEl) headerSearchEl.classList.remove('mobile-open');
       mobileMenu.classList.toggle('open');
     });
     mobileMenu.addEventListener('click', (e) => {
       if (e.target.tagName === 'A' || e.target.closest('button')) {
         mobileMenu.classList.remove('open');
-      }
-    });
-  }
-
-  if (navSearchToggle && headerSearchEl) {
-    navSearchToggle.addEventListener('click', () => {
-      if (mobileMenu) mobileMenu.classList.remove('open');
-      headerSearchEl.classList.toggle('mobile-open');
-      if (headerSearchEl.classList.contains('mobile-open')) {
-        headerSearchEl.classList.add('active');
-        const input = headerSearchEl.querySelector('input');
-        if (input) setTimeout(() => input.focus(), 50);
-      } else {
-        headerSearchEl.classList.remove('active');
       }
     });
   }
