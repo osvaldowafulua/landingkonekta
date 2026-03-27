@@ -520,7 +520,25 @@ nav {
   .task-card { margin-left: 0 !important; }
   .h1-aurora { font-size: 48px; }
   .cta-row { justify-content: center; }
-  .cat-grid { grid-template-columns: 1fr 1fr; }
+  /* Categories cards: horizontal + centered (mobile) */
+  .cat-grid {
+    display: flex !important;
+    grid-template-columns: unset !important;
+    gap: 14px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    padding: 0 24px !important;
+    margin: 0 -24px !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  .cat-grid::-webkit-scrollbar { display: none; }
+  .cat-card {
+    flex: 0 0 84% !important;
+    max-width: 420px !important;
+    scroll-snap-align: center !important;
+    text-align: center !important;
+  }
   .features { grid-template-columns: 1fr; padding: 60px 24px; }
   .pricing { grid-template-columns: 1fr; padding: 60px 24px; }
 
