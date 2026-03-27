@@ -514,13 +514,29 @@ nav {
 }
 
 @media (max-width: 768px) {
-  .hero { grid-template-columns: 1fr; padding: 120px 24px 185px; text-align: center; }
+  .hero { grid-template-columns: 1fr; align-items: flex-start; padding: 96px 24px 185px; text-align: center; }
   .h-left { align-items: center; }
+  .h-right { height: auto !important; justify-content: flex-start !important; }
+  .task-card { margin-left: 0 !important; }
   .h1-aurora { font-size: 48px; }
   .cta-row { justify-content: center; }
   .cat-grid { grid-template-columns: 1fr 1fr; }
   .features { grid-template-columns: 1fr; padding: 60px 24px; }
   .pricing { grid-template-columns: 1fr; padding: 60px 24px; }
+
+  /* USSD / Inclusão digital */
+  #funcionamento { padding: 80px 24px !important; }
+  #funcionamento .ussd-grid {
+    grid-template-columns: 1fr !important;
+    gap: 48px !important;
+    align-items: flex-start !important;
+    text-align: center;
+  }
+  /* Nokia em baixo (centrado) no mobile */
+  #funcionamento .ussd-grid > :first-child { order: 2; margin: 0 auto; }
+  #funcionamento .ussd-grid > :last-child { order: 1; }
+  #funcionamento .sec-h2 { font-size: clamp(36px, 9vw, 48px) !important; }
+  #funcionamento p { margin-left: auto; margin-right: auto; }
 }
 
 @media (max-width: 480px) {
@@ -536,6 +552,17 @@ nav {
   .nav-right .hide-mobile { display: none; }
   .cat-grid { grid-template-columns: 1fr; }
   .float-card { display: none !important; }
+  .categories { padding: 64px 24px; }
+  .categories .sec-h2 {
+    font-size: clamp(28px, 6.4vw, 40px);
+    white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-width: 100%;
+    padding-bottom: 6px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .categories .sec-h2::-webkit-scrollbar { display: none; }
 }
 
 .btn-fill {
@@ -574,6 +601,9 @@ nav {
   z-index:2;
   width:100%;
 }
+
+/* USSD section (desktop align-top) */
+#funcionamento .ussd-grid { align-items: flex-start !important; }
 
 .h-left { text-align:left; }
 
@@ -1377,7 +1407,7 @@ footer {
 
 <!-- USSD Mockup Section -->
 <section style="padding:100px 48px; background:var(--bg2)" id="funcionamento">
-  <div style="max-width:1200px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center">
+  <div class="ussd-grid" style="max-width:1200px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center">
     <div class="nokia-container">
       <div class="nokia-phone">
         <div class="nokia-speaker">
