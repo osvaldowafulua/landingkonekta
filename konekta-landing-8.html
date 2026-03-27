@@ -423,6 +423,55 @@ nav {
   margin-top:12px;
 }
 
+/* Mobile bottom dock */
+.mobile-dock {
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  padding:10px 16px 18px;
+  background:rgba(255,255,255,0.96);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  border-top:1px solid var(--border);
+  box-shadow:0 -10px 25px rgba(0,0,0,0.12);
+  display:none;
+  z-index:95;
+}
+.mobile-dock-inner {
+  max-width:520px;
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.mobile-dock-label {
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:0.12em;
+  color:var(--muted);
+  font-weight:600;
+  margin-bottom:4px;
+}
+.mobile-dock-close {
+  margin-left:8px;
+  width:28px;
+  height:28px;
+  border-radius:999px;
+  border:1px solid var(--border2);
+  background:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:14px;
+  cursor:pointer;
+}
+
+@media (max-width: 768px) {
+  .mobile-dock { display:none; }
+  .mobile-dock.visible { display:block; }
+}
+
 .nav-left-group {
   display:flex;
   align-items:center;
@@ -1263,6 +1312,20 @@ footer {
   </div>
 </div>
 
+<!-- Mobile bottom dock -->
+<div class="mobile-dock" id="mobileDock">
+  <div class="mobile-dock-inner">
+    <div style="flex:1;">
+      <div class="mobile-dock-label">Pronto para começar?</div>
+      <div style="display:flex; gap:8px;">
+        <button class="btn-fill" style="flex:1; height:40px; border-radius:999px;">Publicar tarefa</button>
+        <button class="btn-outline" style="flex:1; height:40px; border-radius:999px;">Ver prestadores</button>
+      </div>
+    </div>
+    <button class="mobile-dock-close" id="mobileDockClose" aria-label="Fechar">&times;</button>
+  </div>
+</div>
+
 <!-- HERO -->
 <section class="hero">
   <div class="aurora">
@@ -1636,6 +1699,41 @@ footer {
       if (e.target.tagName === 'A' || e.target.closest('button')) {
         mobileMenu.classList.remove('open');
       }
+    });
+  }
+
+  // Mobile bottom dock: aparece após rolar e some perto do fim ou ao fechar
+  const mobileDock = document.getElementById('mobileDock');
+  const mobileDockClose = document.getElementById('mobileDockClose');
+  let dockDismissed = false;
+
+  function handleDock() {
+    if (!mobileDock) return;
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    if (!isMobile || dockDismissed) {
+      mobileDock.classList.remove('visible');
+      return;
+    }
+    const scrollY = window.scrollY || window.pageYOffset;
+    const docHeight = document.documentElement.scrollHeight;
+    const winHeight = window.innerHeight;
+    const nearBottom = scrollY + winHeight > docHeight - 200;
+
+    if (scrollY > 300 && !nearBottom) {
+      mobileDock.classList.add('visible');
+    } else {
+      mobileDock.classList.remove('visible');
+    }
+  }
+
+  window.addEventListener('scroll', handleDock);
+  window.addEventListener('resize', handleDock);
+  document.addEventListener('DOMContentLoaded', handleDock);
+
+  if (mobileDockClose) {
+    mobileDockClose.addEventListener('click', () => {
+      dockDismissed = true;
+      mobileDock.classList.remove('visible');
     });
   }
 </script>
