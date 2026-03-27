@@ -552,22 +552,22 @@ nav {
   .nav-right .hide-mobile { display: none; }
   /* Categories cards: horizontal + centered */
   .cat-grid {
-    display: flex;
-    grid-template-columns: unset;
-    gap: 14px;
-    overflow-x: auto;
-    overflow-y: hidden;
-    padding: 0 24px;
-    margin: 0 -24px;
-    scroll-snap-type: x mandatory;
+    display: flex !important;
+    grid-template-columns: unset !important;
+    gap: 14px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    padding: 0 24px !important;
+    margin: 0 -24px !important;
+    scroll-snap-type: x mandatory !important;
     -webkit-overflow-scrolling: touch;
   }
   .cat-grid::-webkit-scrollbar { display: none; }
   .cat-card {
-    flex: 0 0 84%;
-    max-width: 360px;
-    scroll-snap-align: center;
-    text-align: center;
+    flex: 0 0 84% !important;
+    max-width: 360px !important;
+    scroll-snap-align: center !important;
+    text-align: center !important;
   }
   .float-card { display: none !important; }
   .categories { padding: 64px 24px; }
